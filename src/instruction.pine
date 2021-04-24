@@ -1,0 +1,3 @@
+//@version=4
+study('chartex', overlay=true)
+label.new(1619168400000, -1, text='', xloc=xloc.bar_index, yloc=yloc.price, color=color.blue, style=label.style_label_down, textcolor=color.black, size=size.normal, textalign=text.align_center, tooltip='')
