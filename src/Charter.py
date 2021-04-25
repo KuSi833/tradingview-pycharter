@@ -17,7 +17,7 @@ class Charter():
     def draw_label(self, x: int, y: int,
                    text: str = "",
                    xloc: str = "bar_time",
-                   y_pos: str = "price",
+                   yloc: str = "price",
                    color: str = "color.blue",
                    style: str = "label.style_label_down",
                    textcolor: str = "color.black",
@@ -33,11 +33,11 @@ class Charter():
                     - index of bar        if xloc == "bar_index"
                     - UNIX timestamp      if xloc == "bar_time"
                 y:  int
-                    - price - ignored when y_pos is specified
+                    - price - ignored when yloc is specified
                 xloc: {"bar_index", "bar_time"}, optional, default="bar_time"
                     - if xloc == "bar_index" then x expects bar index
                     - if xloc == "bar_time"  then x expects UNIX timestamp
-                y_pos: {"abovebar", "belowbar", "price"}, optional, defualt="price"
+                yloc: {"abovebar", "belowbar", "price"}, optional, defualt="price"
                     - position of label (up is above candle, down is below candle)
 
             Returns:
@@ -47,9 +47,13 @@ class Charter():
                 InvalidAttributeException: Invalid attribute name is given
         """
         # Value Validation
+        input_validation.validate_xloc(xloc)
+        input_validation.validate_yloc(yloc)
         input_validation.validate_color(color)
-        input_validation.validate_color(textcolor)
         input_validation.validate_label_style(style)
+        input_validation.validate_color(textcolor)
+        input_validation.validate_size(size)
+        input_validation.validate_textalign(textalign)
         
         # PineScript Assembly
         label_instruction = []
@@ -62,7 +66,7 @@ class Charter():
             f"label.new({x}, {y}, "
             f"text='{text}', "
             f"xloc=xloc.{xloc}, "
-            f"yloc=yloc.{y_pos}, "
+            f"yloc=yloc.{yloc}, "
             f"color={color}, "
             f"style={style}, "
             f"textcolor={textcolor}, "

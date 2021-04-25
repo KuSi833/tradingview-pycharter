@@ -22,9 +22,21 @@ def validate_xloc(xloc: str) -> None:
         raise InvalidNameException("Invalid xloc")
 
 # Label validation
+def validate_yloc(yloc: str) -> None:
+    if yloc not in label_variables["yloc"]:
+        raise InvalidNameException("Invalid yloc")
+
 def validate_label_style(label_style: str) -> None:
     if label_style not in label_variables["styles"]:
         raise InvalidNameException("Invalid label style")
+
+def validate_size(size: str) -> None:
+    if size not in label_variables["size"]:
+        raise InvalidNameException("Invalid size")
+
+def validate_textalign(textalign: str) -> None:
+    if textalign not in label_variables["textalign"]:
+        raise InvalidNameException("Invalid textalign")
 
 # Line validation
 def validate_line_style(line_style: str) -> None:

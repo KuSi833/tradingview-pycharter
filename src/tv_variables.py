@@ -8,6 +8,9 @@ colors = {
 }
 
 label_variables = {
+    "yloc": {
+        "yloc.price", "yloc.abovebar", "yloc.belowbar"
+    },
     "styles": {
         "label.style_none", "label.style_xcross", "label.style_cross",
         "label.style_triangleup", "label.style_triangledown", "label.style_flag",
@@ -18,6 +21,12 @@ label_variables = {
         "label.style_label_upper_right", "label.style_label_center",
         "label.style_square", "label.style_diamond"
     },
+    "size": {
+        "size.auto", "size.tiny", "size.small", "size.normal", "size.large", "size.huge"
+    },
+    "text_align": {
+        "text.align_left", "text.align_center", "text.align_right"
+    }
 }
 
 line_variables = {
