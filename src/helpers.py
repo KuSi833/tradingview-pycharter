@@ -4,3 +4,6 @@ def isNoneAny(*args) -> bool:
         if element is None:
             return True
     return False
+
+def roundTimestampToBar(timestamp: int, timeframe: int) -> int:
+    return (timestamp//timeframe)*timeframe
