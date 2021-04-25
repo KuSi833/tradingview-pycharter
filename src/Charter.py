@@ -15,6 +15,12 @@ class Charter():
         input_validation.validate_chart_name(chart_name)
         self.chart_name = chart_name
 
+    def write_instructions(self):
+        with open("instruction.pine", "w") as file:
+            for instruction in self.instructions:
+                file.write(instruction + "\n")
+
+    # Fundamental drawings
     def draw_label(self, x: int, y: int,
                    text: str = "",
                    xloc: str = "xloc.bar_time",
@@ -99,11 +105,14 @@ class Charter():
         # PineScript Assembly
         line_instruction = []
 
-        if xloc == "xloc.bar_time": # Needs rounding otherwise if will never be satisfied
-            if extend == "extend.right":
-                line_instruction.append(f"if time == {roundTimestampToBar(x1, self.timeframe)}")
-            elif extend == "extend.left":
-                line_instruction.append(f"if time == {roundTimestampToBar(x2, self.timeframe)}")
+        if xloc == "xloc.bar_time":  # Needs rounding otherwise if will never be satisfied
+            if extend == "extend.left":
+                line_instruction.append(
+                    f"if time == {roundTimestampToBar(x2, self.timeframe)}")
+            else:
+                line_instruction.append(
+                    f"if time == {roundTimestampToBar(x1, self.timeframe)}")
+
 
         line_instruction.append(
             f"    "  # Required distance for PineScript tab
@@ -113,6 +122,7 @@ class Charter():
 
         self.instructions.extend(line_instruction)
 
+    # Derivative drawings
     def draw_horizontal_ray(self, x: int, y: int,
                             direction: str,
                             xloc: str = "xloc.bar_time",
@@ -121,11 +131,17 @@ class Charter():
                             width: str = "1"
                             ) -> None:
         if (direction == "right"):
-            self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc, extend="extend.right", color=color, style=style, width=width)
+            self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc,
+                           extend="extend.right", color=color, style=style, width=width)
         elif (direction == "left"):
-            self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc, extend="extend.left", color=color, style=style, width=width)
+            self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc,
+                           extend="extend.left", color=color, style=style, width=width)
 
-    def write_instructions(self):
-        with open("instruction.pine", "w") as file:
-            for instruction in self.instructions:
-                file.write(instruction + "\n")
+    def draw_horizontal_line(self, x: int, y: int,
+                            xloc: str = "xloc.bar_time",
+                            color: str = "color.blue",
+                            style: str = "line.style_solid",
+                            width: str = "1"
+                            ) -> None:
+        self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc,
+                        extend="extend.both", color=color, style=style, width=width)
