@@ -1,11 +1,12 @@
 import input_validation
 from exceptions import InvalidAttributeException, InvalidNameException
-from helpers import isNoneAny
+from helpers import isNoneAny, roundTimestampToBar
 
 
 class Charter():
-    def __init__(self, chart_name: str) -> None:
+    def __init__(self, chart_name: str, timeframe: int) -> None:
         self.set_chart_name(chart_name)
+        self.timeframe = timeframe
         self.instructions = []
         self.instructions.append(f"//@version=4")
         self.instructions.append(f"study('{chart_name}', overlay=true)")
@@ -54,7 +55,7 @@ class Charter():
         input_validation.validate_color(textcolor)
         input_validation.validate_size(size)
         input_validation.validate_textalign(textalign)
-        
+
         # PineScript Assembly
         label_instruction = []
 
@@ -98,19 +99,31 @@ class Charter():
         # PineScript Assembly
         line_instruction = []
 
-        if xloc == "xloc.bar_time":
+        if xloc == "xloc.bar_time": # Needs rounding otherwise if will never be satisfied
             if extend == "extend.right":
-                line_instruction.append(f"if time == {x1}")
+                line_instruction.append(f"if time == {roundTimestampToBar(x1, self.timeframe)}")
             elif extend == "extend.left":
-                line_instruction.append(f"if time == {x2}")
+                line_instruction.append(f"if time == {roundTimestampToBar(x2, self.timeframe)}")
 
         line_instruction.append(
-            f"    " # Required distance for PineScript tab
+            f"    "  # Required distance for PineScript tab
             f"line.new(x1={x1}, y1={y1}, x2={x2}, y2={y2}, "
             f"xloc={xloc}, extend={extend}, color={color}, style={style}, width={width})"
         )
 
         self.instructions.extend(line_instruction)
+
+    def draw_horizontal_ray(self, x: int, y: int,
+                            direction: str,
+                            xloc: str = "xloc.bar_time",
+                            color: str = "color.blue",
+                            style: str = "line.style_solid",
+                            width: str = "1"
+                            ) -> None:
+        if (direction == "right"):
+            self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc, extend="extend.right", color=color, style=style, width=width)
+        elif (direction == "left"):
+            self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc, extend="extend.left", color=color, style=style, width=width)
 
     def write_instructions(self):
         with open("instruction.pine", "w") as file:
