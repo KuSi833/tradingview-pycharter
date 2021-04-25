@@ -24,7 +24,7 @@ label_variables = {
     "size": {
         "size.auto", "size.tiny", "size.small", "size.normal", "size.large", "size.huge"
     },
-    "text_align": {
+    "textalign": {
         "text.align_left", "text.align_center", "text.align_right"
     }
 }

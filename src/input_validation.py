@@ -15,34 +15,34 @@ def validate_color(color: str) -> None:
         pattern = re.compile(regex)
         result = pattern.search(color)
         if result is None:
-            raise InvalidNameException("Invalid color")
+            raise InvalidNameException(f"Invalid color: {color}")
 
 def validate_xloc(xloc: str) -> None:
     if xloc not in xlocs:
-        raise InvalidNameException("Invalid xloc")
+        raise InvalidNameException(f"Invalid xloc: {xloc}")
 
 # Label validation
 def validate_yloc(yloc: str) -> None:
     if yloc not in label_variables["yloc"]:
-        raise InvalidNameException("Invalid yloc")
+        raise InvalidNameException(f"Invalid yloc: {yloc}")
 
 def validate_label_style(label_style: str) -> None:
     if label_style not in label_variables["styles"]:
-        raise InvalidNameException("Invalid label style")
+        raise InvalidNameException(f"Invalid label style: {label_style}")
 
 def validate_size(size: str) -> None:
     if size not in label_variables["size"]:
-        raise InvalidNameException("Invalid size")
+        raise InvalidNameException(f"Invalid size: {size}")
 
 def validate_textalign(textalign: str) -> None:
     if textalign not in label_variables["textalign"]:
-        raise InvalidNameException("Invalid textalign")
+        raise InvalidNameException(f"Invalid textalign: {textalign}")
 
 # Line validation
 def validate_line_style(line_style: str) -> None:
     if line_style not in line_variables["styles"]:
-        raise InvalidNameException("Invalid line style")
+        raise InvalidNameException(f"Invalid line style: {line_style}")
 
 def validate_extend(extend: str) -> None:
     if extend not in line_variables["extend"]:
-        raise InvalidNameException("Invalid extend")
+        raise InvalidNameException(f"Invalid extend: {extend}")

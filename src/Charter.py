@@ -16,13 +16,13 @@ class Charter():
 
     def draw_label(self, x: int, y: int,
                    text: str = "",
-                   xloc: str = "bar_time",
-                   yloc: str = "price",
+                   xloc: str = "xloc.bar_time",
+                   yloc: str = "yloc.price",
                    color: str = "color.blue",
                    style: str = "label.style_label_down",
                    textcolor: str = "color.black",
-                   size: str = "normal",
-                   textalign: str = "align_center",
+                   size: str = "size.normal",
+                   textalign: str = "text.align_center",
                    tooltip: str = ""
                    ) -> None:
         """
@@ -58,30 +58,30 @@ class Charter():
         # PineScript Assembly
         label_instruction = []
 
-        if xloc == "bar_time":
+        if xloc == "xloc.bar_time":
             label_instruction.append(f"if time == {x}")
 
         label_instruction.append(
             f"    "
-            f"label.new({x}, {y}, "
+            f"label.new(x={x}, y={y}, "
             f"text='{text}', "
-            f"xloc=xloc.{xloc}, "
-            f"yloc=yloc.{yloc}, "
+            f"xloc={xloc}, "
+            f"yloc={yloc}, "
             f"color={color}, "
             f"style={style}, "
             f"textcolor={textcolor}, "
-            f"size=size.{size}, "
-            f"textalign=text.{textalign}, "
+            f"size={size}, "
+            f"textalign={textalign}, "
             f"tooltip='{tooltip}'"
             f")"
         )
         self.instructions.extend(label_instruction)
 
     def draw_line(self, x1: int, y1: int, x2: int, y2: int,
-                  xloc: str = "bar_time",
-                  extend: str = "none",
-                  color: str = "blue",
-                  style: str = "style_solid",
+                  xloc: str = "xloc.bar_time",
+                  extend: str = "extend.none",
+                  color: str = "color.blue",
+                  style: str = "line.style_solid",
                   width: str = "1"
                   ) -> None:
 
@@ -98,16 +98,16 @@ class Charter():
         # PineScript Assembly
         line_instruction = []
 
-        if xloc == "bar_time":
-            if extend == "right":
+        if xloc == "xloc.bar_time":
+            if extend == "extend.right":
                 line_instruction.append(f"if time == {x1}")
-            elif extend == "left":
+            elif extend == "extend.left":
                 line_instruction.append(f"if time == {x2}")
 
         line_instruction.append(
             f"    " # Required distance for PineScript tab
             f"line.new(x1={x1}, y1={y1}, x2={x2}, y2={y2}, "
-            f"xloc=xloc.{xloc}, extend=extend.{extend}, color=color.{color}, style=line.{style}, width={width})"
+            f"xloc={xloc}, extend={extend}, color={color}, style={style}, width={width})"
         )
 
         self.instructions.extend(line_instruction)
