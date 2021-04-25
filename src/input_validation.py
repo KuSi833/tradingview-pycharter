@@ -1,6 +1,6 @@
 import re
 from exceptions import InvalidNameException
-from tv_variables import colors, label_styles
+from tv_variables import colors, label_variables, line_variables, xlocs
 
 def validate_chart_name(chart_name: str) -> None:
     regex = "^[a-zA-Z_][a-zA-Z0-9_]*$"
@@ -9,7 +9,7 @@ def validate_chart_name(chart_name: str) -> None:
     if result is None:
         raise InvalidNameException(f"Invalid chart name, should be of form: {regex}")
 
-def validate_colour(color: str) -> None:
+def validate_color(color: str) -> None:
     if color not in colors:
         regex = "^#[a-zA-Z0-9]{6}$"
         pattern = re.compile(regex)
@@ -17,6 +17,20 @@ def validate_colour(color: str) -> None:
         if result is None:
             raise InvalidNameException("Invalid color")
 
+def validate_xloc(xloc: str) -> None:
+    if xloc not in xlocs:
+        raise InvalidNameException("Invalid xloc")
+
+# Label validation
 def validate_label_style(label_style: str) -> None:
-    if label_style not in label_styles:
+    if label_style not in label_variables["styles"]:
         raise InvalidNameException("Invalid label style")
+
+# Line validation
+def validate_line_style(line_style: str) -> None:
+    if line_style not in line_variables["styles"]:
+        raise InvalidNameException("Invalid line style")
+
+def validate_extend(extend: str) -> None:
+    if extend not in line_variables["extend"]:
+        raise InvalidNameException("Invalid extend")
