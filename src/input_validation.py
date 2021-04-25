@@ -1,6 +1,6 @@
 import re
 from exceptions import InvalidNameException
-from tv_variables import colors
+from tv_variables import colors, label_styles
 
 def validate_chart_name(chart_name: str) -> None:
     regex = "^[a-zA-Z_][a-zA-Z0-9_]*$"
@@ -16,3 +16,7 @@ def validate_colour(color: str) -> None:
         result = pattern.search(color)
         if result is None:
             raise InvalidNameException("Invalid color")
+
+def validate_label_style(label_style: str) -> None:
+    if label_style not in label_styles:
+        raise InvalidNameException("Invalid label style")

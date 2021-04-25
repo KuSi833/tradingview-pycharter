@@ -1,4 +1,4 @@
-from input_validation import validate_chart_name
+from input_validation import validate_chart_name, validate_colour, validate_label_style
 from exceptions import InvalidAttributeException, InvalidNameException
 from helpers import isNoneAny
 
@@ -18,9 +18,9 @@ class Charter():
                    text: str = "",
                    x_measure: str = "bar_time",
                    y_pos: str = "price",
-                   colour: str = "blue",
-                   style: str = "style_label_down",
-                   textcolor: str = "black",
+                   color: str = "color.blue",
+                   style: str = "label.style_label_down",
+                   textcolor: str = "color.black",
                    size: str = "normal",
                    textalign: str = "align_center",
                    tooltip: str = ""
@@ -46,25 +46,39 @@ class Charter():
             Raises:
                 InvalidAttributeException: Invalid attribute name is given
         """
-        label_instruction = (
+        label_instruction = []
+
+        # Value Validation
+
+        validate_colour(color)
+        validate_colour(textcolor)
+        validate_label_style(style)
+
+        # PineScript Construction
+
+        if x_measure == "bar_time":
+            label_instruction.append(f"if time == {x}")
+
+        label_instruction.append(
+            f"    "
             f"label.new({x}, {y}, "
             f"text='{text}', "
             f"xloc=xloc.{x_measure}, "
             f"yloc=yloc.{y_pos}, "
-            f"color=color.{colour}, "
-            f"style=label.{style}, "
-            f"textcolor=color.{textcolor}, "
+            f"color={color}, "
+            f"style={style}, "
+            f"textcolor={textcolor}, "
             f"size=size.{size}, "
             f"textalign=text.{textalign}, "
             f"tooltip='{tooltip}'"
             f")"
         )
-        self.instructions.append(label_instruction)
+        self.instructions.extend(label_instruction)
 
     def draw_line(self, x1: int, y1: int, x2: int, y2: int,
                   x_measure: str = "bar_time",
                   extend: str = "none",
-                  colour: str = "blue",
+                  color: str = "blue",
                   style: str = "style_solid",
                   width: str = "1"
                   ) -> None:
@@ -74,7 +88,7 @@ class Charter():
                 "All points need to be given")
 
         line_instruction = []
-        
+
         if x_measure == "bar_time":
             if extend == "right":
                 line_instruction.append(f"if time == {x1}")
@@ -84,7 +98,7 @@ class Charter():
         line_instruction.append(
             f"    " # Required distance for PineScript tab
             f"line.new(x1={x1}, y1={y1}, x2={x2}, y2={y2}, "
-            f"xloc=xloc.{x_measure}, extend=extend.{extend}, color=color.{colour}, style=line.{style}, width={width})"
+            f"xloc=xloc.{x_measure}, extend=extend.{extend}, color=color.{color}, style=line.{style}, width={width})"
         )
 
         self.instructions.extend(line_instruction)
