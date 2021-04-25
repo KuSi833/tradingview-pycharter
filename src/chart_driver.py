@@ -6,5 +6,6 @@ myCharter = Charter("chartex")
 #                                      "red", "style_label_up", "white", "large", "align_left", "lol explanation")
 
 myCharter.draw_label(1619168400000, -1)
+myCharter.draw_line(1619168400000, "close", 1619168400000+1, "close", extend="right")
 
 myCharter.write_instructions()
