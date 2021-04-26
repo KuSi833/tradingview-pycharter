@@ -5,5 +5,5 @@ from tv_variables import Color, Xloc
 
 myCharter = Charter("chartex2", 1000*60*60)
 myLabel = Label(Point(2000, 1619168400000), "test text", xloc=Xloc.BAR_TIME, color=Color.MAROON, initiate=True, id="label1")
-
-print(myLabel)
+myCharter.add_element(myLabel)
+myCharter.output_pinescript()

@@ -1,0 +1,4 @@
+//@version=4
+study('chartex2', overlay=true)
+if time == 2000
+    label1 = label.new(x=2000, y=1619168400000, text='test text', xloc=Xloc.BAR_TIME, yloc=Yloc.PRICE, color=Color.MAROON, style=LabelStyle.LABEL_DOWN, textcolor=Color.BLACK, size=Size.NORMAL, textalign=TextAlign.CENTER, tooltip='')
