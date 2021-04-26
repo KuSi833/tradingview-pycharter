@@ -29,16 +29,16 @@ class Label(Element):
         self.textalign = textalign
         self.tooltip = tooltip
 
-        self.pineInstruction: str = ""
-
     def __str__(self):
+        self.pine_instruction: str = ""
+
         if self.xloc is Xloc.BAR_TIME:
-            self.pineInstruction += f"if time == {self.p.x}\n    "
+            self.pine_instruction += f"if time == {self.p.x}\n    "
 
         if self.initiate:
-            self.pineInstruction += f"{self.id} = "
+            self.pine_instruction += f"{self.id} = "
 
-        self.pineInstruction += (
+        self.pine_instruction += (
             f"label.new(x={self.p.x}, y={self.p.y}, "
             f"text='{self.text}', "
             f"xloc={self.xloc}, "
@@ -52,4 +52,4 @@ class Label(Element):
             f")"
         )
 
-        return self.pineInstruction
+        return self.pine_instruction
