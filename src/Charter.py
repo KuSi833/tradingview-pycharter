@@ -7,6 +7,7 @@ class Charter():
     def __init__(self, chart_name: str, timeframe: int) -> None:
         self.set_chart_name(chart_name)
         self.timeframe = timeframe
+        self.objects = {}
         self.instructions = []
         self.instructions.append(f"//@version=4")
         self.instructions.append(f"study('{chart_name}', overlay=true)")
@@ -122,6 +123,7 @@ class Charter():
         self.instructions.extend(line_instruction)
 
     # Derivative drawings
+
     def draw_horizontal_ray(self, x: int, y: int,
                             direction: str,
                             xloc: str = "xloc.bar_time",
@@ -137,22 +139,36 @@ class Charter():
             self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc,
                            extend="extend.left", color=color, style=style, width=width)
 
-    def draw_horizontal_line(self, x: int, y: int,
-                             xloc: str = "xloc.bar_time",
-                             color: str = "color.blue",
-                             style: str = "line.style_solid",
-                             width: str = "1"
-                             ) -> None:
+    def draw_hline(self, price: int,
+                   title: str = "",
+                   color: str = "color.blue",
+                   linestyle: str = "hline.style_solid",
+                   linewidth: str = "1",
+                   editable: bool = True
+                   ) -> None:
         "Draws horizontal line"
-        self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc,
-                       extend="extend.both", color=color, style=style, width=width)
 
-    def draw_vertical_line(self, x: int, y: int,
-                           xloc: str = "xloc.bar_time",
-                           color: str = "color.blue",
-                           style: str = "line.style_solid",
-                           width: str = "1"
-                           ) -> None:
+        # Value Validation
+        input_validation.validate_color(color)
+        input_validation.validate_hline_style(linestyle)
+
+        # PineScript Assembly
+        instruction = (
+            f"hline(price={price}, "
+            f"title=\"{title}\", "
+            f"color={color}, "
+            f"linestyle={linestyle}, "
+            f"linewidth={linewidth}, "
+            f"editable={editable})"
+        )
+        self.instructions.append(instruction)
+
+    def draw_vline(self, x: int, y: int,
+                   xloc: str = "xloc.bar_time",
+                   color: str = "color.blue",
+                   style: str = "line.style_solid",
+                   width: str = "1"
+                   ) -> None:
         "Draws vertical line"
         self.draw_line(x1=x, y1=y, x2=x, y2=y + "+1", xloc=xloc,
                        extend="extend.both", color=color, style=style, width=width)

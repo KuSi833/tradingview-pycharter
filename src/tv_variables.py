@@ -39,6 +39,10 @@ line_variables = {
     }
 }
 
+hline_variables = {
+    "styles": {"hline.style_solid", "hline.style_dotted", "hline.style_dashed"}
+}
+
 xlocs = {
     "xloc.bar_index", "xloc.bar_time"
 }

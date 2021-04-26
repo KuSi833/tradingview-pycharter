@@ -1,6 +1,6 @@
 import re
 from exceptions import InvalidNameException
-from tv_variables import colors, label_variables, line_variables, xlocs
+from tv_variables import colors, label_variables, line_variables, xlocs, hline_variables
 
 def validate_chart_name(chart_name: str) -> None:
     regex = "^[a-zA-Z_][a-zA-Z0-9_]*$"
@@ -46,3 +46,8 @@ def validate_line_style(line_style: str) -> None:
 def validate_extend(extend: str) -> None:
     if extend not in line_variables["extend"]:
         raise InvalidNameException(f"Invalid extend: {extend}")
+
+# Hline validation
+def validate_hline_style(hline_style: str) -> None:
+    if hline_style not in hline_variables["styles"]:
+        raise InvalidNameException(f"Invalid hline style: {hline_style}")

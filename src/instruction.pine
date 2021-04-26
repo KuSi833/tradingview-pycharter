@@ -1,4 +1,5 @@
 //@version=4
 study('chartex', overlay=true)
 if time == 1619168400000
-    line.new(x1=1619168400000, y1=close, x2=1619168400000, y2=close+1, xloc=xloc.bar_time, extend=extend.both, color=color.red, style=line.style_solid, width=1)
+    label.new(x=1619168400000, y=close, text='test text', xloc=xloc.bar_time, yloc=yloc.price, color=color.blue, style=label.style_label_down, textcolor=color.black, size=size.normal, textalign=text.align_center, tooltip='')
+hline(price=2000, title="buy now", color=color.green, linestyle=hline.style_solid, linewidth=1, editable=True)
