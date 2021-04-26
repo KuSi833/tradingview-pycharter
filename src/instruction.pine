@@ -2,4 +2,5 @@
 study('chartex', overlay=true)
 if time == 1619168400000
     label.new(x=1619168400000, y=close, text='test text', xloc=xloc.bar_time, yloc=yloc.price, color=color.blue, style=label.style_label_down, textcolor=color.black, size=size.normal, textalign=text.align_center, tooltip='')
-hline(price=2000, title="buy now", color=color.green, linestyle=hline.style_solid, linewidth=1, editable=True)
+h1 = hline(price=2000, title="buy now", color=color.green, linestyle=hline.style_solid, linewidth=1, editable=true)
+h2 = hline(price=2200, title="sell now", color=color.red, linestyle=hline.style_solid, linewidth=1, editable=true)

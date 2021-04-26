@@ -1,5 +1,5 @@
 import input_validation
-from exceptions import InvalidAttributeException, InvalidNameException
+from exceptions import InvalidAttributeException, NameTakenException
 from helpers import isNoneAny, roundTimestampToBar
 
 
@@ -7,13 +7,16 @@ class Charter():
     def __init__(self, chart_name: str, timeframe: int) -> None:
         self.set_chart_name(chart_name)
         self.timeframe = timeframe
+        
+        # Initialising object field
         self.objects = {}
+
         self.instructions = []
         self.instructions.append(f"//@version=4")
         self.instructions.append(f"study('{chart_name}', overlay=true)")
 
     def set_chart_name(self, chart_name: str) -> None:
-        input_validation.validate_chart_name(chart_name)
+        input_validation.validate_name(chart_name)
         self.chart_name = chart_name
 
     def write_instructions(self):
@@ -54,6 +57,8 @@ class Charter():
             Raises:
                 InvalidAttributeException: Invalid attribute name is given
         """
+        # Object initialisation
+
         # Value Validation
         input_validation.validate_xloc(xloc)
         input_validation.validate_yloc(yloc)
@@ -144,16 +149,31 @@ class Charter():
                    color: str = "color.blue",
                    linestyle: str = "hline.style_solid",
                    linewidth: str = "1",
-                   editable: bool = True
+                   editable: str = "true",
+                   persistance: bool = False,
+                   name: str = ""
                    ) -> None:
         "Draws horizontal line"
+
+        hline_instruction = ""
 
         # Value Validation
         input_validation.validate_color(color)
         input_validation.validate_hline_style(linestyle)
 
+        # Object persistance
+        if (persistance):
+            if name == "":
+                raise InvalidAttributeException("Name needs to be specified if persistance=true")
+            input_validation.validate_name(name)
+            if name in self.objects:
+                raise NameTakenException(f"hline name: {name} has already been taken")
+            else:
+                self.objects[name] = "hline"
+                hline_instruction+=f"{name} = "
+
         # PineScript Assembly
-        instruction = (
+        hline_instruction += (
             f"hline(price={price}, "
             f"title=\"{title}\", "
             f"color={color}, "
@@ -161,7 +181,7 @@ class Charter():
             f"linewidth={linewidth}, "
             f"editable={editable})"
         )
-        self.instructions.append(instruction)
+        self.instructions.append(hline_instruction)
 
     def draw_vline(self, x: int, y: int,
                    xloc: str = "xloc.bar_time",

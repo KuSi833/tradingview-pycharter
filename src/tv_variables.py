@@ -46,3 +46,5 @@ hline_variables = {
 xlocs = {
     "xloc.bar_index", "xloc.bar_time"
 }
+
+tv_boolean = {"true", "false"}

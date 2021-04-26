@@ -1,13 +1,13 @@
 import re
-from exceptions import InvalidNameException
-from tv_variables import colors, label_variables, line_variables, xlocs, hline_variables
+from exceptions import InvalidAttributeException, InvalidNameException
+from tv_variables import colors, label_variables, line_variables, xlocs, hline_variables, tv_boolean
 
-def validate_chart_name(chart_name: str) -> None:
+def validate_name(name: str) -> None:
     regex = "^[a-zA-Z_][a-zA-Z0-9_]*$"
     pattern = re.compile(regex)
-    result = pattern.search(chart_name)
+    result = pattern.search(name)
     if result is None:
-        raise InvalidNameException(f"Invalid chart name, should be of form: {regex}")
+        raise InvalidNameException(f"Invalid name: {name}, should be of form: {regex}")
 
 def validate_color(color: str) -> None:
     if color not in colors:
@@ -16,6 +16,10 @@ def validate_color(color: str) -> None:
         result = pattern.search(color)
         if result is None:
             raise InvalidNameException(f"Invalid color: {color}")
+
+def validate_tv_bool(variable: str) -> None:
+    if variable not in tv_boolean:
+        raise InvalidAttributeException("Invalid form of boolean for tradingview")
 
 def validate_xloc(xloc: str) -> None:
     if xloc not in xlocs:
