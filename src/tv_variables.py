@@ -1,50 +1,75 @@
-# TradingView variables for validation
+from enum import Enum, unique
 
-colors = {
-    "color.black", "color.blue", "color.fuchsia", "color.gray",
-    "color.green", "color.lime", "color.maroon", "color.navy",
-    "color.olive", "color.orange", "color.purple", "color.red",
-    "color.silver", "color.teal", "color.white", "color.yellow"
-}
 
-label_variables = {
-    "yloc": {
-        "yloc.price", "yloc.abovebar", "yloc.belowbar"
-    },
-    "styles": {
-        "label.style_none", "label.style_xcross", "label.style_cross",
-        "label.style_triangleup", "label.style_triangledown", "label.style_flag",
-        "label.style_circle", "label.style_arrowup", "label.style_arrowdown",
-        "label.style_label_up", "label.style_label_down", "label.style_label_left",
-        "label.style_label_right", "label.style_label_lower_left",
-        "label.style_label_lower_right", "label.style_label_upper_left",
-        "label.style_label_upper_right", "label.style_label_center",
-        "label.style_square", "label.style_diamond"
-    },
-    "size": {
-        "size.auto", "size.tiny", "size.small", "size.normal", "size.large", "size.huge"
-    },
-    "textalign": {
-        "text.align_left", "text.align_center", "text.align_right"
-    }
-}
+@unique
+class Color(Enum):
+    BLACK = "color.black"
+    BLUE = "color.blue"
+    FUCHSIA = "color.fuchsia"
+    GRAY = "color.gray"
+    GREEN = "color.green"
+    LIME = "color.lime"
+    MAROON = "color.maroon"
+    NAVY = "color.navy"
+    OLIVE = "color.olive"
+    ORANGE = "color.orange"
+    PURPLE = "color.purple"
+    RED = "color.red"
+    SILVER = "color.silver"
+    TEAL = "color.teal"
+    WHITE = "color.white"
+    YELLOW = "color.yellow"
 
-line_variables = {
-    "styles": {
-        "line.style_solid", "line.style_dotted", "line.style_dashed",
-        "line.style_arrow_left", "line.style_arrow_right", "line.style_arrow_both"
-    },
-    "extend": {
-        "extend.none", "extend.right", "extend.left", "extend.both"
-    }
-}
 
-hline_variables = {
-    "styles": {"hline.style_solid", "hline.style_dotted", "hline.style_dashed"}
-}
+@unique
+class LabelStyle(Enum):
+    NONE = "label.style_none"
+    XCROSS = "label.style_xcross"
+    CROSS = "label.style_cross"
+    TRIANGLE_UP = "label.style_triangleup"
+    TRIANGLE_DOWN = "label.style_triangledown"
+    FLAG = "label.style_flag"
+    CIRCLE = "label.style_circle"
+    ARROW_UP = "label.style_arrowup"
+    ARROW_DOWN = "label.style_arrowdown",
+    LABEL_UP = "label.style_label_up"
+    LABEL_DOWN = "label.style_label_down"
+    LABEL_LEFT = "label.style_label_left"
+    LABEL_RIGHT = "label.style_label_right"
+    LABEL_LOWER_LEFT = "label.style_label_lower_left"
+    LABEL_LOWER_RIGHT = "label.style_label_lower_right"
+    LABEL_UPPER_LEFT = "label.style_label_upper_left"
+    LABEL_UPPER_RIGHT = "label.style_label_upper_right"
+    LABEL_CENTER = "label.style_label_center",
+    SQUARE = "label.style_square"
+    DIAMONG = "label.style_diamond"
 
-xlocs = {
-    "xloc.bar_index", "xloc.bar_time"
-}
 
-tv_boolean = {"true", "false"}
+@unique
+class Size(Enum):
+    AUTO = "size.auto"
+    TINY = "size.tiny"
+    SMALL = "size.small"
+    NORMAL = "size.normal"
+    LARGE = "size.large"
+    HUGE = "size.huge"
+
+
+@unique
+class TextAlign(Enum):
+    LEFT = "text.align_left"
+    CENTER = "text.align_center"
+    RIGHT = "text.align_right"
+
+
+@unique
+class Xloc(Enum):
+    BAR_INDEX = "xloc.bar_index"
+    BAR_TIME = "xloc.bar_time"
+
+
+@unique
+class Yloc(Enum):
+    PRICE = "yloc.price"
+    ABOVEBAR = "yloc.abovebar"
+    BELOWBAR = "yloc.belowbar"
