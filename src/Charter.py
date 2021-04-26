@@ -113,7 +113,6 @@ class Charter():
                 line_instruction.append(
                     f"if time == {roundTimestampToBar(x1, self.timeframe)}")
 
-
         line_instruction.append(
             f"    "  # Required distance for PineScript tab
             f"line.new(x1={x1}, y1={y1}, x2={x2}, y2={y2}, "
@@ -130,6 +129,7 @@ class Charter():
                             style: str = "line.style_solid",
                             width: str = "1"
                             ) -> None:
+        "Draws horizontal ray with options to extend it right or left"
         if (direction == "right"):
             self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc,
                            extend="extend.right", color=color, style=style, width=width)
@@ -138,10 +138,21 @@ class Charter():
                            extend="extend.left", color=color, style=style, width=width)
 
     def draw_horizontal_line(self, x: int, y: int,
-                            xloc: str = "xloc.bar_time",
-                            color: str = "color.blue",
-                            style: str = "line.style_solid",
-                            width: str = "1"
-                            ) -> None:
+                             xloc: str = "xloc.bar_time",
+                             color: str = "color.blue",
+                             style: str = "line.style_solid",
+                             width: str = "1"
+                             ) -> None:
+        "Draws horizontal line"
         self.draw_line(x1=x, y1=y, x2=x+1, y2=y, xloc=xloc,
-                        extend="extend.both", color=color, style=style, width=width)
+                       extend="extend.both", color=color, style=style, width=width)
+
+    def draw_vertical_line(self, x: int, y: int,
+                           xloc: str = "xloc.bar_time",
+                           color: str = "color.blue",
+                           style: str = "line.style_solid",
+                           width: str = "1"
+                           ) -> None:
+        "Draws vertical line"
+        self.draw_line(x1=x, y1=y, x2=x, y2=y + "+1", xloc=xloc,
+                       extend="extend.both", color=color, style=style, width=width)
