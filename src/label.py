@@ -29,7 +29,7 @@ class Label(Element):
         self.textalign = textalign
         self.tooltip = tooltip
 
-    def __str__(self):
+    def to_pinescript(self):
         self.pine_instruction: str = ""
 
         if self.xloc is Xloc.BAR_TIME:
@@ -41,13 +41,13 @@ class Label(Element):
         self.pine_instruction += (
             f"label.new(x={self.p.x}, y={self.p.y}, "
             f"text='{self.text}', "
-            f"xloc={self.xloc}, "
-            f"yloc={self.yloc}, "
-            f"color={self.color}, "
-            f"style={self.style}, "
-            f"textcolor={self.textcolor}, "
-            f"size={self.size}, "
-            f"textalign={self.textalign}, "
+            f"xloc={self.xloc.value}, "
+            f"yloc={self.yloc.value}, "
+            f"color={self.color.value}, "
+            f"style={self.style.value}, "
+            f"textcolor={self.textcolor.value}, "
+            f"size={self.size.value}, "
+            f"textalign={self.textalign.value}, "
             f"tooltip='{self.tooltip}'"
             f")"
         )
