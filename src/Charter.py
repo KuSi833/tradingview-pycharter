@@ -1,7 +1,9 @@
+import os
 import input_validation
 from elements.element import Element
 from typing import List
 from elements.label import Label
+from config import ROOT_DIR
 
 
 class Charter():
@@ -31,7 +33,7 @@ class Charter():
         return self.pine_instruction
 
     def output_pinescript(self) -> None:
-        with open("instruction.pine", "w") as file:
+        with open(os.path.join(ROOT_DIR, "output", "instruction.pine"), "w") as file:
             file.write(self.to_pinescript() + "\n")
             for element in self.elements:
                 file.write(element.to_pinescript() + "\n")
