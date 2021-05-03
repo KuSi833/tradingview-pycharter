@@ -1,6 +1,7 @@
 from input_validation import validate_name
 from abc import ABC, abstractmethod
 
+
 class Element(ABC):
     def __init__(self, id: str = None) -> None:
         "Base class of all elements on chart"

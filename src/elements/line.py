@@ -25,8 +25,8 @@ class Line(Element):
     def to_pinescript(self):
         self.pine_instruction: str = ""
 
-        #Make sure script runs only once
-        self.pine_instruction += f"if barstate.islast\n    "
+        # Make sure script runs only once
+        self.pine_instruction += "if barstate.islast\n    "
 
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "

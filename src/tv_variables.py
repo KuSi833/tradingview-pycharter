@@ -1,15 +1,18 @@
 from enum import Enum, unique
 
+
 @unique
 class Xloc(Enum):
     BAR_INDEX = "xloc.bar_index"
     BAR_TIME = "xloc.bar_time"
+
 
 @unique
 class Yloc(Enum):
     PRICE = "yloc.price"
     ABOVEBAR = "yloc.abovebar"
     BELOWBAR = "yloc.belowbar"
+
 
 @unique
 class Color(Enum):
@@ -31,6 +34,8 @@ class Color(Enum):
     YELLOW = "color.yellow"
 
 # Label
+
+
 @unique
 class LabelStyle(Enum):
     NONE = "label.style_none"
@@ -72,12 +77,15 @@ class TextAlign(Enum):
     RIGHT = "text.align_right"
 
 # Line
+
+
 @unique
 class Extend(Enum):
     NONE = "extend.none"
     RIGHT = "extend.right"
     LEFT = "extend.left"
     BOTH = "extend.both"
+
 
 @unique
 class LineStyle(Enum):
@@ -87,3 +95,12 @@ class LineStyle(Enum):
     ARROW_LEFT = "line.style_arrow_left"
     ARROW_RIGHT = "line.style_arrow_right"
     ARROW_BOTH = "line.style_arrow_both"
+
+# Hline
+
+
+@unique
+class HlineStyle(Enum):
+    SOLID = "hline.style_solid"
+    DOTTED = "hline.style_dotted"
+    DASHED = "hline.style_dashed"

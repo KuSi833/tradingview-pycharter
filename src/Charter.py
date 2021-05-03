@@ -24,7 +24,7 @@ class Charter():
     def add_element(self, element: Element) -> None:
         self.elements.append(element)
 
-    def add_elements(self, *elements: List[Element]) -> None:
+    def add_elements(self, *elements: Element) -> None:
         self.elements.extend(elements)
 
     def to_pinescript(self) -> str:
