@@ -1,7 +1,7 @@
 import input_validation
-from element import Element
+from elements.element import Element
 from typing import List
-from label import Label
+from elements.label import Label
 
 
 class Charter():
@@ -23,6 +23,9 @@ class Charter():
 
     def add_element(self, element: Element) -> None:
         self.elements.append(element)
+
+    def add_elements(self, *elements: List[Element]) -> None:
+        self.elements.extend(elements)
 
     def to_pinescript(self) -> str:
         return self.pine_instruction
