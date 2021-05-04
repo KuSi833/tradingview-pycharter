@@ -1,46 +1,63 @@
 from elements.element import Element
 from tv_variables import Color, Xloc, Extend, LineStyle
-from typing import Union
 from elements.hline import Hline
+from helpers.formatting import parameter_formatting
 
 
 class Fill(Element):
-    def __init__(self, e1: Hline, e2: Hline,
+    def __init__(self, hline1: Hline, hline2: Hline,
                  color: Color = Color.BLUE,
-                 transp: int = Xloc.BAR_TIME,
-                 extend: Extend = Extend.NONE,
-                 style: LineStyle = LineStyle.SOLID,
-                 width: int = 1,
-                 id: str = None
+                 transp: int = None,
+                 title: str = None,
+                 editable: bool = None,
+                 fillgaps: bool = None,
+                 time_start: int = None,
+                 time_end: int = None,
                  ) -> None:
+        "Fills area between 2 horizontal lines, from time_start till time_end"
 
-        super().__init__(id)
-        self.e1 = e1
-        self.e2 = e2
-        self.xloc = xloc
-        self.extend = extend
+        self.hline1 = hline1
+        self.hline2 = hline2
         self.color = color
-        self.style = style
-        self.width = width
+        self.transp = transp
+        self.title = title
+        self.editable = editable
+        self.fillgaps = fillgaps
+        self.time_start = time_start
+        self.time_end = time_end
+
+    def time_interval_formatter(self) -> str:
+        "Constructs pinescript for timerange filtering"
+        if (self.time_start is None and self.time_end is None):
+            return self.color.value
+        elif (self.time_end is None):
+            return f", color = time > {self.time_start} ? {self.color.value} : na"
+        elif (self.time_start is None):
+            return f", color = time < {self.time_start} ? {self.color.value} : na"
+        else:
+            return f", color = time > {self.time_start} ? (time < {self.time_end} ? {self.color.value} : na) : na"
 
     def to_pinescript(self):
         self.pine_instruction: str = ""
 
-        # Make sure script runs only once
-        self.pine_instruction += "if barstate.islast\n    "
+        # Required parameters
+        self.pine_instruction += f"fill(hline1={self.hline1.id}, hline2={self.hline2.id}"
 
-        if self.id is not None:
-            self.pine_instruction += f"{self.id} = "
+        # Optional parameters for pinescript function
+        parameters = [
+            (self.transp, "trasnp"),
+            (self.title, "title"),
+            (self.editable, "editable"),
+            (self.fillgaps, "fillgaps")
+        ]
+        for parameter, ps_parameter_name in parameters:
+            self.pine_instruction += parameter_formatting(
+                parameter, ps_parameter_name)
 
-        self.pine_instruction += (
-            f"line.new(x1={self.p1.x}, y1={self.p1.y}, "
-            f"x2={self.p2.x}, y2={self.p2.y}, "
-            f"xloc={self.xloc.value}, "
-            f"extend={self.extend.value}, "
-            f"color={self.color.value}, "
-            f"style={self.style.value}, "
-            f"width={self.width}"
-            f")"
-        )
+        # Custom Color formatting for fill
+        self.pine_instruction += self.time_interval_formatter()
+
+        # End of pine instruction
+        self.pine_instruction += ")"
 
         return self.pine_instruction
