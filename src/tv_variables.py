@@ -123,3 +123,9 @@ class PlotStyle(Enum):
     AREA = "plot.style_area"
     COLUMNS = "plot.style_columns"
     CIRCLES = "plot.style_circles"
+
+
+@unique  # Plot
+class Display(Enum):
+    NONE = "display.none"
+    ALL = "display.all"
