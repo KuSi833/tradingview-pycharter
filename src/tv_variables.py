@@ -2,6 +2,16 @@ from enum import Enum, unique
 
 
 @unique
+class Series(Enum):
+    OPEN = "open"
+    HIGH = "high"
+    LOW = "low"
+    CLOSE = "close"
+    VOLUME = "volume"
+    TIME = "time"
+
+
+@unique
 class Xloc(Enum):
     BAR_INDEX = "xloc.bar_index"
     BAR_TIME = "xloc.bar_time"
@@ -96,11 +106,20 @@ class LineStyle(Enum):
     ARROW_RIGHT = "line.style_arrow_right"
     ARROW_BOTH = "line.style_arrow_both"
 
-# Hline
 
-
-@unique
+@unique  # Hline
 class HlineStyle(Enum):
     SOLID = "hline.style_solid"
     DOTTED = "hline.style_dotted"
     DASHED = "hline.style_dashed"
+
+
+@unique  # Plot
+class PlotStyle(Enum):
+    LINE = "plot.style_line"
+    STEPLINE = "plot.style_stepline"
+    HISTOGRAM = "plot.style_histogram"
+    CROSS = "plot.style_cross"
+    AREA = "plot.style_area"
+    COLUMNS = "plot.style_columns"
+    CIRCLES = "plot.style_circles"
