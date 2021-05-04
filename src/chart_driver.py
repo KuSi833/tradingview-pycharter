@@ -1,8 +1,8 @@
 from Charter import Charter
-from elements.hline import Hline
-from elements.label import Label
-from elements.line import Line
-from elements.fill import Fill
+from elements.Hline import Hline
+from elements.Label import Label
+from elements.Line import Line
+from elements.Fill import Fill
 from PricePoint import PricePoint
 from tv_variables import Extend, LineStyle, Xloc, Color, HlineStyle
 

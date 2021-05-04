@@ -1,4 +1,4 @@
-from elements.element import Element
+from elements.Element import Element
 from tv_variables import Color, HlineStyle, LineStyle
 from helpers.formatting import parameter_formatting
 

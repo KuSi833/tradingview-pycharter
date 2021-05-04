@@ -1,8 +1,7 @@
 import os
 from helpers import input_validation
-from elements.element import Element
+from elements.Element import Element
 from typing import List
-from elements.label import Label
 from config import ROOT_DIR
 
 

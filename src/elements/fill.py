@@ -1,6 +1,6 @@
-from elements.element import Element
+from elements.Element import Element
 from tv_variables import Color, Xloc, Extend, LineStyle
-from elements.hline import Hline
+from elements.Hline import Hline
 from helpers.formatting import parameter_formatting
 
 
