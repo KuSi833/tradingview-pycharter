@@ -2,6 +2,6 @@
 study('chartex2', overlay=true)
 if barstate.islast
     label1 = label.new(x=1619168400000, y=2000, text='placeholder', xloc=xloc.bar_time, yloc=yloc.price, color=color.maroon, style=label.style_label_down, textcolor=color.black, size=size.normal, textalign=text.align_center, tooltip='')
-hline1 = hline(price=3500, title='', color=color.blue, linestyle=hline.style_dashed, linewidth=1, editable=true)
-hline2 = hline(price=3000, title='', color=color.blue, linestyle=hline.style_dashed, linewidth=1, editable=true)
+hline1 = hline(price=3500, color = color.blue, linestyle = hline.style_dashed)
+hline2 = hline(price=3000, color = color.blue, linestyle = hline.style_dashed)
 fill(hline1=hline1, hline2=hline2, color = time > 1618957756000 ? (time < 1619908156000 ? color.blue : na) : na)

@@ -43,7 +43,7 @@ class Fill(Element):
         # Required parameters
         self.pine_instruction += f"fill(hline1={self.hline1.id}, hline2={self.hline2.id}"
 
-        # Optional parameters for pinescript function
+        # Optional parameters
         parameters = [
             (self.transp, "trasnp"),
             (self.title, "title"),
