@@ -47,9 +47,9 @@ class Fill(Element):
         elif (self.time_end is None):
             return f", color = time > {self.time_start} ? {self.color.value} : na"
         elif (self.time_start is None):
-            return f", color = time < {self.time_start} ? {self.color.value} : na"
+            return f", color = time <= {self.time_start} + (time[0]-time[1]) ? {self.color.value} : na"
         else:
-            return f", color = time > {self.time_start} ? (time < {self.time_end} ? {self.color.value} : na) : na"
+            return f", color = time > {self.time_start} ? (time <= {self.time_end} + (time[0]-time[1]) ? {self.color.value} : na) : na"
 
     def to_pinescript(self):
         self.pine_instruction: str = ""

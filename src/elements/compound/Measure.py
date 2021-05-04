@@ -1,6 +1,7 @@
 from elements.Element import Element
 from PricePoint import PricePoint
-from tv_variables import Color
+from elements.Line import Line
+from tv_variables import Color, LineStyle
 from elements.compound.Square import Square
 
 
@@ -25,9 +26,22 @@ class Measure(Element):
         # Square
         self.square = Square(p1=p1, p2=p2, color=self.color)
 
+        # Lines
+        self.midpoint_timestamp = (self.p1.timestamp + self.p2.timestamp) // 2
+        self.midpoint_price = (self.p1.price + self.p2.price) // 2
+
+        self.arrow_down = Line(PricePoint(timestamp=self.midpoint_timestamp, price=self.p1.price),
+                               PricePoint(timestamp=self.midpoint_timestamp, price=self.p2.price),
+                               color=self.color, style=LineStyle.ARROW_RIGHT)
+        self.arrow_right = Line(PricePoint(timestamp=self.p1.timestamp, price=self.midpoint_price),
+                                PricePoint(timestamp=self.p2.timestamp, price=self.midpoint_price),
+                                color=self.color, style=LineStyle.ARROW_RIGHT)
+
     def to_pinescript(self):
         self.pine_instructions = ""
 
-        self.pine_instructions += self.square.to_pinescript() + "\n"
+        self.pine_instructions += self.square.to_pinescript() + "\n"  # Square
+        self.pine_instructions += self.arrow_down.to_pinescript() + "\n"  # Arrow Down
+        self.pine_instructions += self.arrow_right.to_pinescript() + "\n"  # Arrow Right
 
         return self.pine_instructions

@@ -1,12 +1,13 @@
 import os
 from helpers import input_validation
 from elements.Element import Element
-from typing import List
+from typing import List, Union
 from config import ROOT_DIR
+from constants.constants import Timeframe
 
 
 class Charter():
-    def __init__(self, chart_name: str, timeframe: int) -> None:
+    def __init__(self, chart_name: str, timeframe: Union[int, Timeframe]) -> None:
         self.set_chart_name(chart_name)
         self.timeframe = timeframe
 
