@@ -33,9 +33,12 @@ class Line(Element):
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "
 
+        # Pinescript function
+        self.pine_instruction += "line.new("
+
         # Required parameters
         self.pine_instruction += (
-            f"line.new(x1={self.p1.timestamp}, y1={self.p1.price}, "
+            f"x1={self.p1.timestamp}, y1={self.p1.price}, "
             f"x2={self.p2.timestamp}, y2={self.p2.price}, "
             f"xloc={self.xloc.value}"
         )

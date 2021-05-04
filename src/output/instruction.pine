@@ -2,8 +2,4 @@
 study('chartex2', overlay=true)
 if barstate.islast
     label.new(x=1619168400000, y=2000, xloc = xloc.bar_time)
-hline1 = hline(price=3500, color = color.blue, linestyle = hline.style_dashed)
-hline2 = hline(price=3000, color = color.blue, linestyle = hline.style_dashed)
-fill(hline1=hline1, hline2=hline2, color = time > 1618957756000 ? (time < 1619908156000 ? color.blue : na) : na)
-if barstate.islast
-    line.new(x1=1618957756000, y1=3000, x2=1619908156000, y2=3500, xloc=xloc.bar_time)
+plot.new(series = 5000)

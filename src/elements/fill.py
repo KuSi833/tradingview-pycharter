@@ -40,8 +40,11 @@ class Fill(Element):
     def to_pinescript(self):
         self.pine_instruction: str = ""
 
+        # Pinescript function
+        self.pine_instruction += "fill("
+
         # Required parameters
-        self.pine_instruction += f"fill(hline1={self.hline1.id}, hline2={self.hline2.id}"
+        self.pine_instruction += f"hline1={self.hline1.id}, hline2={self.hline2.id}"
 
         # Optional parameters
         parameters = [

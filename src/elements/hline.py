@@ -27,10 +27,11 @@ class Hline(Element):
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "
 
+        # Pinescript function
+        self.pine_instruction += "hline("
+
         # Required parameter
-        self.pine_instruction += (
-            f"hline(price={self.price}"
-        )
+        self.pine_instruction += parameter_formatting(self.price, "price", add_comma=False)
 
         # Optional parameters
         parameters = [

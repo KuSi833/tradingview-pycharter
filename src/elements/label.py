@@ -39,9 +39,12 @@ class Label(Element):
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "
 
+        # Pinescript function
+        self.pine_instruction += "label.new("
+
         # Required parameter
         self.pine_instruction += (
-            f"label.new(x={self.p.timestamp}, y={self.p.price}"
+            f"x={self.p.timestamp}, y={self.p.price}"
         )
         self.pine_instruction += parameter_formatting(self.xloc, "xloc")
 
