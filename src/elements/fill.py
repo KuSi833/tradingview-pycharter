@@ -3,7 +3,7 @@ from tv_variables import Color, Xloc, Extend, LineStyle
 from elements.Hline import Hline
 from elements.Plot import Plot
 from helpers.formatting import parameter_formatting
-from typing import Union, Optional
+from typing import Union
 
 
 class Fill(Element):
