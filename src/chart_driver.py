@@ -1,4 +1,5 @@
 from Charter import Charter
+from constants.constants import Timeframe
 from elements.Hline import Hline
 from elements.Label import Label
 from elements.Line import Line
@@ -8,12 +9,19 @@ from elements.Plot import Plot
 from elements.compound.Square import Square
 from elements.compound.Measure import Measure
 from constants.tv_constants import Extend, LineStyle, Xloc, Color, HlineStyle
+from helpers.formatting import snap_to_timeframe as snap
 
-myCharter = Charter("chartex2", 1000 * 60 * 60 * 24)
+timeframe: Timeframe = Timeframe.H1
 
-myLabel = Label(PricePoint(1619168400000, 2000))
-myMeasure = Measure(PricePoint(timestamp=1618957756000, price=4000),
-                    PricePoint(timestamp=1619908156000, price=3000))
+myCharter = Charter("chartex2", timeframe)
 
-myCharter.add_elements(myLabel, myMeasure)
+myLabel = Label(PricePoint(snap(1619168400000, timeframe), 2000))
+measureProfit = Measure(PricePoint(timestamp=1618917756000, price=2534.15),
+                        PricePoint(timestamp=1618999136000, price=3020.52))
+myCharter.add_element(measureProfit)
+# measureLoss = Measure(PricePoint(timestamp=1619117756000, price=3341.84),
+#                       PricePoint(timestamp=1619899136000, price=2803.42))
+# myCharter.add_element(measureLoss)
+
+myCharter.add_elements(myLabel)
 myCharter.output_pinescript()
