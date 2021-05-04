@@ -45,7 +45,7 @@ class Fill(Element):
 
         # Optional parameters
         parameters = [
-            (self.transp, "trasnp"),
+            (self.transp, "transp"),
             (self.title, "title"),
             (self.editable, "editable"),
             (self.fillgaps, "fillgaps")
