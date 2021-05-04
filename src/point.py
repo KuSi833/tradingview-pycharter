@@ -1,4 +1,4 @@
-class Point():
-    def __init__(self, x: int, y: int) -> None:
-        self.x = x
-        self.y = y
+class PricePoint():
+    def __init__(self, timestamp: int, price: int) -> None:
+        self.timestamp = timestamp
+        self.price = price
