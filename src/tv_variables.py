@@ -42,6 +42,7 @@ class Color(Enum):
     TEAL = "color.teal"
     WHITE = "color.white"
     YELLOW = "color.yellow"
+    NA = "na"
 
 # Label
 
