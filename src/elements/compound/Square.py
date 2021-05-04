@@ -10,10 +10,8 @@ class Square(Element):
                  color: Color = None,
                  transp: int = None,
                  editable: bool = None,
-                 id: str = None
                  ) -> None:
 
-        super().__init__(id)
         self.p1 = p1
         self.p2 = p2
         self.color = color
