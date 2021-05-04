@@ -1,19 +1,20 @@
 from elements.element import Element
 from point import Point
 from tv_variables import Color, LabelStyle, Size, TextAlign, Xloc, Yloc
+from helpers.formatting import parameter_formatting
 
 
 class Label(Element):
     def __init__(self, p: Point,
-                 text: str = "",
+                 text: str = None,
                  xloc: Xloc = Xloc.BAR_TIME,
-                 yloc: Yloc = Yloc.PRICE,
-                 color: Color = Color.BLUE,
-                 style: LabelStyle = LabelStyle.LABEL_DOWN,
-                 textcolor: Color = Color.BLACK,
-                 size: Size = Size.NORMAL,
-                 textalign: TextAlign = TextAlign.CENTER,
-                 tooltip: str = "",
+                 yloc: Yloc = None,
+                 color: Color = None,
+                 style: LabelStyle = None,
+                 textcolor: Color = None,
+                 size: Size = None,
+                 textalign: TextAlign = None,
+                 tooltip: str = None,
                  id: str = None
                  ) -> None:
         super().__init__(id)
@@ -34,21 +35,32 @@ class Label(Element):
         # Make sure script runs only once
         self.pine_instruction += "if barstate.islast\n    "
 
+        # Initialisation
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "
 
+        # Required parameter
         self.pine_instruction += (
-            f"label.new(x={self.p.x}, y={self.p.y}, "
-            f"text='{self.text}', "
-            f"xloc={self.xloc.value}, "
-            f"yloc={self.yloc.value}, "
-            f"color={self.color.value}, "
-            f"style={self.style.value}, "
-            f"textcolor={self.textcolor.value}, "
-            f"size={self.size.value}, "
-            f"textalign={self.textalign.value}, "
-            f"tooltip='{self.tooltip}'"
-            f")"
+            f"label.new(x={self.p.x}, y={self.p.y}"
         )
+        self.pine_instruction += parameter_formatting(self.xloc, "xloc")
+
+        # Optional parameters
+        parameters = [
+            (self.text, "text"),
+            (self.yloc, "yloc"),
+            (self.color, "color"),
+            (self.style, "style"),
+            (self.textcolor, "textcolor"),
+            (self.size, "size"),
+            (self.textalign, "textalign"),
+            (self.tooltip, "tooltip")
+        ]
+        for parameter, ps_parameter_name in parameters:
+            self.pine_instruction += parameter_formatting(
+                parameter, ps_parameter_name)
+
+        # End of pine instruction
+        self.pine_instruction += ")"
 
         return self.pine_instruction

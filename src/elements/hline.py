@@ -27,7 +27,7 @@ class Hline(Element):
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "
 
-        # Required parameters
+        # Required parameter
         self.pine_instruction += (
             f"hline(price={self.price}"
         )
