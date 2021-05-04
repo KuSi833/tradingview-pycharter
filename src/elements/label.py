@@ -1,11 +1,11 @@
 from elements.element import Element
-from point import Point
+from PricePoint import PricePoint
 from tv_variables import Color, LabelStyle, Size, TextAlign, Xloc, Yloc
 from helpers.formatting import parameter_formatting
 
 
 class Label(Element):
-    def __init__(self, p: Point,
+    def __init__(self, p: PricePoint,
                  text: str = None,
                  xloc: Xloc = Xloc.BAR_TIME,
                  yloc: Yloc = None,
@@ -41,7 +41,7 @@ class Label(Element):
 
         # Required parameter
         self.pine_instruction += (
-            f"label.new(x={self.p.x}, y={self.p.y}"
+            f"label.new(x={self.p.timestamp}, y={self.p.price}"
         )
         self.pine_instruction += parameter_formatting(self.xloc, "xloc")
 

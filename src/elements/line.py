@@ -1,15 +1,16 @@
 from elements.element import Element
-from point import Point
+from PricePoint import PricePoint
 from tv_variables import Color, Xloc, Extend, LineStyle
+from helpers.formatting import parameter_formatting
 
 
 class Line(Element):
-    def __init__(self, p1: Point, p2: Point,
+    def __init__(self, p1: PricePoint, p2: PricePoint,
                  xloc: Xloc = Xloc.BAR_TIME,
-                 extend: Extend = Extend.NONE,
-                 color: Color = Color.BLUE,
-                 style: LineStyle = LineStyle.SOLID,
-                 width: int = 1,
+                 extend: Extend = None,
+                 color: Color = None,
+                 style: LineStyle = None,
+                 width: int = None,
                  id: str = None
                  ) -> None:
 
@@ -28,18 +29,29 @@ class Line(Element):
         # Make sure script runs only once
         self.pine_instruction += "if barstate.islast\n    "
 
+        # Initialisation
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "
 
+        # Required parameters
         self.pine_instruction += (
-            f"line.new(x1={self.p1.x}, y1={self.p1.y}, "
-            f"x2={self.p2.x}, y2={self.p2.y}, "
-            f"xloc={self.xloc.value}, "
-            f"extend={self.extend.value}, "
-            f"color={self.color.value}, "
-            f"style={self.style.value}, "
-            f"width={self.width}"
-            f")"
+            f"line.new(x1={self.p1.timestamp}, y1={self.p1.price}, "
+            f"x2={self.p2.timestamp}, y2={self.p2.price}, "
+            f"xloc={self.xloc.value}"
         )
+
+        # Optional parameters
+        parameters = [
+            (self.extend, "extend"),
+            (self.color, "color"),
+            (self.style, "style"),
+            (self.width, "width")
+        ]
+        for parameter, ps_parameter_name in parameters:
+            self.pine_instruction += parameter_formatting(
+                parameter, ps_parameter_name)
+
+        # End of pine instruction
+        self.pine_instruction += ")"
 
         return self.pine_instruction
