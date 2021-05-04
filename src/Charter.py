@@ -1,5 +1,5 @@
 import os
-import input_validation
+from helpers import input_validation
 from elements.element import Element
 from typing import List
 from elements.label import Label

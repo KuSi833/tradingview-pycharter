@@ -1,5 +1,0 @@
-//@version=4
-study('chartex2', overlay=true)
-if barstate.islast
-    label1 = label.new(x=1619168400000, y=2000, text='LINE IS HERE', xloc=xloc.bar_time, yloc=yloc.price, color=color.maroon, style=label.style_label_down, textcolor=color.black, size=size.normal, textalign=text.align_center, tooltip='')
-hline1 = hline(price=3300, title='bull go up', color=color.green, linestyle=hline.style_dashed, linewidth=1, editable=true)
