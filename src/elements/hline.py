@@ -1,5 +1,5 @@
 from elements.Element import Element
-from tv_variables import Color, HlineStyle, LineStyle
+from constants.tv_constants import Color, HlineStyle, LineStyle
 from helpers.formatting import parameter_formatting
 
 

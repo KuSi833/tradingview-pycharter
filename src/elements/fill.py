@@ -1,5 +1,5 @@
 from elements.Element import Element
-from tv_variables import Color, Xloc, Extend, LineStyle
+from constants.tv_constants import Color, Xloc, Extend, LineStyle
 from elements.Hline import Hline
 from elements.Plot import Plot
 from helpers.formatting import parameter_formatting

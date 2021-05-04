@@ -7,7 +7,7 @@ from PricePoint import PricePoint
 from elements.Plot import Plot
 from elements.compound.Square import Square
 from elements.compound.Measure import Measure
-from tv_variables import Extend, LineStyle, Xloc, Color, HlineStyle
+from constants.tv_constants import Extend, LineStyle, Xloc, Color, HlineStyle
 
 myCharter = Charter("chartex2", 1000 * 60 * 60 * 24)
 

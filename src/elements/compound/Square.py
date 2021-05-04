@@ -1,6 +1,6 @@
 from elements.Element import Element
 from PricePoint import PricePoint
-from tv_variables import Color
+from constants.tv_constants import Color
 from elements.Fill import Fill
 from elements.Plot import Plot
 

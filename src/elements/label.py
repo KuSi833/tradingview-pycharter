@@ -1,6 +1,6 @@
 from elements.Element import Element
 from PricePoint import PricePoint
-from tv_variables import Color, LabelStyle, Size, TextAlign, Xloc, Yloc
+from constants.tv_constants import Color, LabelStyle, Size, TextAlign, Xloc, Yloc
 from helpers.formatting import parameter_formatting
 
 

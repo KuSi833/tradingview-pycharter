@@ -1,7 +1,7 @@
 from elements.Element import Element
 from PricePoint import PricePoint
 from elements.Line import Line
-from tv_variables import Color, LineStyle
+from constants.tv_constants import Color, LineStyle
 from elements.compound.Square import Square
 
 
