@@ -72,11 +72,18 @@ class Measure(Element):
         else:  # Loss
             percentage_change = f"{round(100 * (absolute_change / p1.price), 2)}%"
 
-        time = self.p2.timestamp - self.p1.timestamp
-        bars = time // charter.get_timeframe()
+        if (p2.timestamp >= p1.timestamp):  # Forwards
+            time = self.p2.timestamp - self.p1.timestamp
+            time_str = timestamp_to_string(time)
+            bars_str = time // charter.get_timeframe()
+        else:  # Reverse
+            time = self.p1.timestamp - self.p2.timestamp
+            time_str = "-" + timestamp_to_string(time)
+            bars_str = "-" + str(time // charter.get_timeframe())
+
         self.label_text = (
             f"{round(absolute_change, 2)} ({percentage_change})\\n\\n"
-            f"{bars} bars, {timestamp_to_string(time)}"
+            f"{bars_str} bars, {time_str}"
         )
 
         # Base Element Scaffolding

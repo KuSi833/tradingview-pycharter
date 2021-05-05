@@ -5,3 +5,16 @@ hline2 = hline(price = 2700)
 fill(hline1=hline1, hline2=hline2, color = time <= 1619622000000 ? color.blue : na)
 bgcolor(color=color.fuchsia, transp = 50, title = "Bg color", color = time > 1619624367000 ? color.fuchsia : na)
 barcolor(color=color.maroon, offset = 2)
+if barstate.islast
+    label.new(x=1619168400000, y=2000, xloc = xloc.bar_time)
+// Measure
+// Square
+e1 = plot(series = 2534.52, color = na, editable = false, display = display.none)
+e2 = plot(series = 3020.15, color = na, editable = false, display = display.none)
+fill(plot1=e1, plot2=e2, transp = 80, color = time > 1618916400000 ? (time <= 1618995600000 ? color.red : na) : na)
+if barstate.islast
+    line.new(x1=1618956000000, y1=3020.15, x2=1618956000000, y2=2534.52, xloc=xloc.bar_time, color = color.red, style = line.style_arrow_right)
+if barstate.islast
+    line.new(x1=1618995600000, y1=2777.0, x2=1618916400000, y2=2777.0, xloc=xloc.bar_time, color = color.red, style = line.style_arrow_right)
+if barstate.islast
+    label.new(x=1618956000000, y=2504.52, xloc = xloc.bar_time, text = "-485.63 (-16.08%)\n\n-22 bars, -22h 36m ", color = color.red, style = label.style_label_up, textcolor = color.white)
