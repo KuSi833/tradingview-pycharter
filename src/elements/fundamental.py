@@ -301,20 +301,11 @@ class Fill(Element):
         if (isinstance(self.e1, Hline) and not isinstance(self.e2, Hline)):
             raise TypeError("Both elements need to be of the same type")
 
-    def time_interval_formatter(self) -> str:
+    def time_range_filtering(self) -> str:
         "Constructs pinescript for timerange filtering"
         # Makes MyPy happy (Doesn't understand the checking if not None)
         assert(isinstance(self.color, Color))
-        time_start = self.time_start
-        time_end = self.time_end
-        if (time_start is None and time_end is None):
-            return self.color.value
-        elif (time_end is None):
-            return f", color = time > {time_start} ? {self.color.value} : na"
-        elif (time_start is None):
-            return f", color = time <= {time_end} ? {self.color.value} : na"
-        else:
-            return f", color = time > {time_start} ? (time <= {time_end} ? {self.color.value} : na) : na"
+        return time_interval_formatter(self.time_start, self.time_end, self.color.value)
 
     def to_pinescript(self):
         self.pine_instruction: str = ""
@@ -341,7 +332,7 @@ class Fill(Element):
 
         # Custom Color formatting for fill
         if self.color is not None:
-            self.pine_instruction += self.time_interval_formatter()
+            self.pine_instruction += self.time_range_filtering()
 
         # Special parameter if elements are of type Plot
         self.pine_instruction += parameter_formatting(
