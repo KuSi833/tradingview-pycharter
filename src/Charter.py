@@ -33,7 +33,7 @@ class Charter():
         return self.pine_instruction
 
     def output_pinescript(self) -> None:
-        with open(os.path.join(ROOT_DIR, "output", "instruction.pine"), "w") as file:
+        with open(os.path.join(ROOT_DIR, "output", f"{self.chart_name}.pine"), "w") as file:
             file.write(self.to_pinescript() + "\n")
             for element in self.elements:
                 file.write(element.to_pinescript() + "\n")

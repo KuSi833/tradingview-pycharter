@@ -30,7 +30,7 @@ class Square(Element):
                          time_start=self.p1.timestamp, time_end=self.p2.timestamp)
 
     def to_pinescript(self):
-        self.pine_instructions = ""
+        self.pine_instructions = "// Square"
 
         # self.pine_instructions += self.hline1.to_pinescript() + "\n"
         # self.pine_instructions += self.hline2.to_pinescript() + "\n"
@@ -97,7 +97,7 @@ class Measure(Element):
                            color=self.color, textcolor=textcolor, text=self.label_text, style=self.style)
 
     def to_pinescript(self):
-        self.pine_instructions = ""
+        self.pine_instructions = "// Measure"
 
         # self.pine_instructions += self.square.to_pinescript() + "\n"  # Square
         # self.pine_instructions += self.arrow_down.to_pinescript() + "\n"  # Arrow Down
