@@ -9,6 +9,7 @@ from constants.tv_constants import Color, LabelStyle, Size, TextAlign, Xloc, Ylo
 from constants.tv_constants import HlineStyle, LineStyle, Extend, PlotStyle, Series, Display
 from helpers.formatting import time_interval_formatter
 
+
 class Element(ABC):
     def __init__(self, charter: Charter, id: str = None) -> None:
         "Base class of all elements on chart"
@@ -26,6 +27,7 @@ class Element(ABC):
     def set_id(self, id):
         validate_name(id)
         self.id = id
+
 
 class Label(Element):
     def __init__(self, charter: Charter, p: PricePoint,
@@ -176,7 +178,8 @@ class Hline(Element):
         self.pine_instruction += "hline("
 
         # Required parameter
-        self.pine_instruction += parameter_formatting(self.price, "price", add_comma=False)
+        self.pine_instruction += parameter_formatting(
+            self.price, "price", add_comma=False)
 
         # Optional parameters
         parameters = [
@@ -239,7 +242,8 @@ class Plot(Element):
         self.pine_instruction += "plot("
 
         # Required parameters
-        self.pine_instruction += parameter_formatting(self.series, "series", add_comma=False)
+        self.pine_instruction += parameter_formatting(
+            self.series, "series", add_comma=False)
 
         # Optional parameters
         parameters = [
@@ -299,7 +303,8 @@ class Fill(Element):
 
     def time_interval_formatter(self) -> str:
         "Constructs pinescript for timerange filtering"
-        assert(isinstance(self.color, Color))  # Makes MyPy happy (Doesn't understand the checking if not None)
+        # Makes MyPy happy (Doesn't understand the checking if not None)
+        assert(isinstance(self.color, Color))
         time_start = self.time_start
         time_end = self.time_end
         if (time_start is None and time_end is None):
@@ -339,12 +344,14 @@ class Fill(Element):
             self.pine_instruction += self.time_interval_formatter()
 
         # Special parameter if elements are of type Plot
-        self.pine_instruction += parameter_formatting(self.show_last, "show_last")
+        self.pine_instruction += parameter_formatting(
+            self.show_last, "show_last")
 
         # End of pine instruction
         self.pine_instruction += ")"
 
         return self.pine_instruction
+
 
 class Bgcolor(Element):
     def __init__(self, charter: Charter,
@@ -355,8 +362,8 @@ class Bgcolor(Element):
                  time_end: int = None,
                  show_last: int = None,
                  title: str = None,
-                 editable: bool = None) -> None :
-        
+                 editable: bool = None) -> None:
+
         super().__init__(charter)
         self.color = color
         self.transp = transp
@@ -366,10 +373,11 @@ class Bgcolor(Element):
         self.show_last = show_last
         self.editable = editable
         self.title = title
-    
+
     def time_range_filtering(self) -> str:
         "Constructs pinescript for timerange filtering"
-        assert(isinstance(self.color, Color))  # Makes MyPy happy (Doesn't understand the checking if not None)
+        # Makes MyPy happy (Doesn't understand the checking if not None)
+        assert(isinstance(self.color, Color))
         return time_interval_formatter(self.time_start, self.time_end, self.color.value)
 
     def to_pinescript(self):
@@ -402,20 +410,21 @@ class Bgcolor(Element):
 
         return self.pine_instruction
 
+
 class Barcolor(Element):
-    def __init__(self, charter : Charter,
-                color : Color = None,
-                offset : int = None,
-                editable : bool = None,
-                show_last : int = None,
-                title : str = None) -> None :
+    def __init__(self, charter: Charter,
+                 color: Color = None,
+                 offset: int = None,
+                 editable: bool = None,
+                 show_last: int = None,
+                 title: str = None) -> None:
         super().__init__(charter)
         self.color = color
         self.offset = offset
         self.editable = editable
         self.show_last = show_last
         self.title = title
-    
+
     def to_pinescript(self):
         self.pine_instruction: str = ""
 
