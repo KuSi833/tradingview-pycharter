@@ -62,10 +62,12 @@ class Measure(Element):
 
         # Label Text
         absolute_change = self.p2.price - self.p1.price
+
         if (p2.price >= p1.price):  # Profit
             percentage_change = f"{round(100 * (absolute_change / p1.price), 2)}%"
         else:  # Loss
             percentage_change = f"{round(100 * (absolute_change / p1.price), 2)}%"
+
         time = self.p2.timestamp - self.p1.timestamp
         bars = time // charter.get_timeframe()
         self.label_text = (
