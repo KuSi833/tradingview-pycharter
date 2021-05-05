@@ -1,15 +1,15 @@
 //@version=4
 study('chartex2', overlay=true)
+if barstate.islast
+    label.new(x=1619168400000, y=2000, xloc = xloc.bar_time)
+
+
 e1 = plot(series = 2534.15, color = na)
 e2 = plot(series = 3020.52, color = na)
 fill(plot1=e1, plot2=e2, transp = 80, color = time > 1618917756000 ? (time <= 1618999136000 + (time[0]-time[1]) ? color.green : na) : na)
-
 if barstate.islast
     line.new(x1=1618958446000, y1=2534.15, x2=1618958446000, y2=3020.52, xloc=xloc.bar_time, color = color.green, style = line.style_arrow_right)
 if barstate.islast
     line.new(x1=1618917756000, y1=2777.0, x2=1618999136000, y2=2777.0, xloc=xloc.bar_time, color = color.green, style = line.style_arrow_right)
 if barstate.islast
     label.new(x=1618958446000, y=3050.52, xloc = xloc.bar_time, text = "486.37 (19.19%)\n\n22h 36m ", color = color.green, style = label.style_label_down, textcolor = color.white)
-
-if barstate.islast
-    label.new(x=1619168400000, y=2000, xloc = xloc.bar_time)

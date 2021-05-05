@@ -1,8 +1,8 @@
+from __future__ import annotations
 import os
-from helpers import input_validation
-from elements.Element import Element
-from typing import List, Union
 from config import ROOT_DIR
+from typing import List, Union
+from helpers import input_validation
 from constants.constants import Timeframe
 
 
@@ -37,3 +37,6 @@ class Charter():
             file.write(self.to_pinescript() + "\n")
             for element in self.elements:
                 file.write(element.to_pinescript() + "\n")
+
+
+from elements.fundamental import Element
