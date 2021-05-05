@@ -94,7 +94,6 @@ class Measure(Element):
                                 PricePoint(timestamp=aligned_timestamp1, price=self.midpoint_price),
                                 PricePoint(timestamp=aligned_timestamp2, price=self.midpoint_price),
                                 color=self.color, style=LineStyle.ARROW_RIGHT)
-
         # Label
         self.label = Label(charter, PricePoint(timestamp=self.midpoint_timestamp, price=self.label_price),
                            color=self.color, textcolor=textcolor, text=self.label_text, style=self.style)

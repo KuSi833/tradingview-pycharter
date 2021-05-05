@@ -2,12 +2,12 @@ from __future__ import annotations
 from Charter import Charter
 from abc import ABC, abstractmethod
 from typing import Union, Any
-from helpers.formatting import parameter_formatting, snap_to_timeframe
+from helpers.formatting import parameter_formatting, snap_to_timeframe, time_interval_formatter
 from helpers.input_validation import validate_name
 from PricePoint import PricePoint
 from constants.tv_constants import Color, LabelStyle, Size, TextAlign, Xloc, Yloc
 from constants.tv_constants import HlineStyle, LineStyle, Extend, PlotStyle, Series, Display
-
+from helpers.formatting import time_interval_formatter
 
 class Element(ABC):
     def __init__(self, charter: Charter, id: str = None) -> None:
@@ -26,7 +26,6 @@ class Element(ABC):
     def set_id(self, id):
         validate_name(id)
         self.id = id
-
 
 class Label(Element):
     def __init__(self, charter: Charter, p: PricePoint,
@@ -308,7 +307,7 @@ class Fill(Element):
         elif (time_end is None):
             return f", color = time > {time_start} ? {self.color.value} : na"
         elif (time_start is None):
-            return f", color = time <= {time_start} + ? {self.color.value} : na"
+            return f", color = time <= {time_end} ? {self.color.value} : na"
         else:
             return f", color = time > {time_start} ? (time <= {time_end} ? {self.color.value} : na) : na"
 
@@ -341,6 +340,101 @@ class Fill(Element):
 
         # Special parameter if elements are of type Plot
         self.pine_instruction += parameter_formatting(self.show_last, "show_last")
+
+        # End of pine instruction
+        self.pine_instruction += ")"
+
+        return self.pine_instruction
+
+class Bgcolor(Element):
+    def __init__(self, charter: Charter,
+                 color: Color = None,
+                 transp: int = None,
+                 offset: int = None,
+                 time_start: int = None,
+                 time_end: int = None,
+                 show_last: int = None,
+                 title: str = None,
+                 editable: bool = None) -> None :
+        
+        super().__init__(charter)
+        self.color = color
+        self.transp = transp
+        self.offset = offset
+        self.time_start = time_start
+        self.time_end = time_end
+        self.show_last = show_last
+        self.editable = editable
+        self.title = title
+    
+    def time_range_filtering(self) -> str:
+        "Constructs pinescript for timerange filtering"
+        assert(isinstance(self.color, Color))  # Makes MyPy happy (Doesn't understand the checking if not None)
+        return time_interval_formatter(self.time_start, self.time_end, self.color.value)
+
+    def to_pinescript(self):
+        self.pine_instruction: str = ""
+
+        # Pinescript function
+        self.pine_instruction += "bgcolor("
+
+        # Required parameters
+        self.pine_instruction += f"color={self.color.value}"
+
+        # Optional parameters
+        parameters = [
+            (self.transp, "transp"),
+            (self.offset, "offset"),
+            (self.editable, "editable"),
+            (self.show_last, "show_last"),
+            (self.title, "title")
+        ]
+        for parameter, ps_parameter_name in parameters:
+            self.pine_instruction += parameter_formatting(
+                parameter, ps_parameter_name)
+
+        # Custom Color formatting for fill
+        if self.color is not None:
+            self.pine_instruction += self.time_range_filtering()
+
+        # End of pine instruction
+        self.pine_instruction += ")"
+
+        return self.pine_instruction
+
+class Barcolor(Element):
+    def __init__(self, charter : Charter,
+                color : Color = None,
+                offset : int = None,
+                editable : bool = None,
+                show_last : int = None,
+                title : str = None) -> None :
+        super().__init__(charter)
+        self.color = color
+        self.offset = offset
+        self.editable = editable
+        self.show_last = show_last
+        self.title = title
+    
+    def to_pinescript(self):
+        self.pine_instruction: str = ""
+
+        # Pinescript function
+        self.pine_instruction += "barcolor("
+
+        # Required parameters
+        self.pine_instruction += f"color={self.color.value}"
+
+        # Optional parameters
+        parameters = [
+            (self.offset, "offset"),
+            (self.editable, "editable"),
+            (self.show_last, "show_last"),
+            (self.title, "title")
+        ]
+        for parameter, ps_parameter_name in parameters:
+            self.pine_instruction += parameter_formatting(
+                parameter, ps_parameter_name)
 
         # End of pine instruction
         self.pine_instruction += ")"

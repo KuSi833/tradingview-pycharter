@@ -3,7 +3,6 @@ from typing import Union
 
 from constants.constants import Timeframe
 
-
 def parameter_formatting(parameter: Union[bool, int, str, Enum], ps_parameter_name: str, add_comma: bool = True) -> str:
     """
     Given the paremeter and pinescript variable name, returns pinescript string
@@ -29,9 +28,9 @@ def parameter_formatting(parameter: Union[bool, int, str, Enum], ps_parameter_na
 
 
 def snap_to_timeframe(timestamp: int, timeframe: Union[Timeframe, int]) -> int:
-    if isinstance(timeframe, Timeframe):
+    if (isinstance(timeframe, Timeframe) and (timestamp is not None)):
         return (timestamp // timeframe.value) * timeframe.value
-    else:
+    elif timestamp is not None:
         return (timestamp // timeframe) * timeframe
 
 
@@ -51,3 +50,13 @@ def timestamp_to_string(timestamp: int) -> str:
         returnstring += f"{minutes}m "
 
     return returnstring
+
+def time_interval_formatter(time_start: int, time_end : int, color : str) -> str:
+    if (time_start is None and time_end is None):
+            return color
+    elif (time_end is None):
+            return f", color = time > {time_start} ? {color} : na"
+    elif (time_start is None):
+            return f", color = time <= {time_end} ? {color} : na"
+    else:
+            return f", color = time > {time_start} ? (time <= {time_end} ? {color} : na) : na"
