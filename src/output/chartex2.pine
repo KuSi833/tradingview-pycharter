@@ -4,12 +4,12 @@ if barstate.islast
     label.new(x=1619168400000, y=2000, xloc = xloc.bar_time)
 // Measure
 // Square
-e1 = plot(series = 2534.15, color = na, editable = false, display = display.none)
-e2 = plot(series = 3020.52, color = na, editable = false, display = display.none)
+e1 = plot(series = 3020.52, color = na, editable = false, display = display.none)
+e2 = plot(series = 2534.15, color = na, editable = false, display = display.none)
 fill(plot1=e1, plot2=e2, transp = 80, color = time > 1618916400000 ? (time <= 1618995600000 ? color.green : na) : na)
 if barstate.islast
     line.new(x1=1618956000000, y1=2534.15, x2=1618956000000, y2=3020.52, xloc=xloc.bar_time, color = color.green, style = line.style_arrow_right)
 if barstate.islast
-    line.new(x1=1618916400000, y1=2777.0, x2=1618995600000, y2=2777.0, xloc=xloc.bar_time, color = color.green, style = line.style_arrow_right)
+    line.new(x1=1618995600000, y1=2777.0, x2=1618916400000, y2=2777.0, xloc=xloc.bar_time, color = color.green, style = line.style_arrow_right)
 if barstate.islast
-    label.new(x=1618956000000, y=3050.52, xloc = xloc.bar_time, text = "486.37 (19.19%)\n\n22 bars, 22h 36m ", color = color.green, style = label.style_label_down, textcolor = color.white)
+    label.new(x=1618956000000, y=3050.52, xloc = xloc.bar_time, text = "486.37 (19.19%)\n\n-23 bars, 1h 23m ", color = color.green, style = label.style_label_down, textcolor = color.white)

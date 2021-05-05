@@ -11,8 +11,12 @@ class Square(Element):
                  transp: int = None,
                  ) -> None:
         super().__init__(charter)
-        self.p1 = p1
-        self.p2 = p2
+        if (p1.timestamp < p2.timestamp):
+            self.p1 = p1
+            self.p2 = p2
+        else:
+            self.p1 = p2
+            self.p2 = p1
         self.color = color
         self.transp = transp
 
