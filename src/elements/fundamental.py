@@ -127,8 +127,8 @@ class Line(Element):
 
         # Required parameters
         self.pine_instruction += (
-            f"x1={snap_to_timeframe(self.p1.timestamp, self.charter.timeframe)}, y1={self.p1.price}, "
-            f"x2={snap_to_timeframe(self.p2.timestamp, self.charter.timeframe)}, y2={self.p2.price}, "
+            f"x1={snap_to_timeframe(self.p1.timestamp, self.charter.get_timeframe())}, y1={self.p1.price}, "
+            f"x2={snap_to_timeframe(self.p2.timestamp, self.charter.get_timeframe())}, y2={self.p2.price}, "
             f"xloc={self.xloc.value}"
         )
 

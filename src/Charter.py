@@ -20,7 +20,10 @@ class Charter():
         )
 
     def get_timeframe(self) -> int:
-        return self.timeframe
+        if isinstance(self.timeframe, Timeframe):
+            return self.timeframe.value
+        else:
+            return self.timeframe
 
     def set_chart_name(self, chart_name: str) -> None:
         input_validation.validate_name(chart_name)

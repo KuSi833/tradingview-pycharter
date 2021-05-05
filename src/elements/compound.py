@@ -1,7 +1,7 @@
 from __future__ import annotations
 from PricePoint import PricePoint
 from helpers.formatting import timestamp_to_string, snap_to_timeframe
-from constants.tv_constants import Color, LabelStyle, LineStyle
+from constants.tv_constants import Color, Display, LabelStyle, LineStyle
 from elements.fundamental import Element, Fill, Plot, Label, Line
 
 
@@ -9,24 +9,21 @@ class Square(Element):
     def __init__(self, charter: Charter, p1: PricePoint, p2: PricePoint,
                  color: Color = None,
                  transp: int = None,
-                 editable: bool = None,
                  ) -> None:
         super().__init__(charter)
         self.p1 = p1
         self.p2 = p2
         self.color = color
         self.transp = transp
-        self.editable = editable
 
         # Base Element Scaffolding
 
-        # Hlines
-        self.hline1 = Plot(charter, self.p1.price, color=Color.NA, id="e1")  # Needs to be uniquely randomly generated
-        self.hline2 = Plot(charter, self.p2.price, color=Color.NA, id="e2")
+        # Hlines  TODO: Needs to be uniquely randomly generated
+        self.hline1 = Plot(charter, self.p1.price, color=Color.NA, id="e1", editable=False, display=Display.NONE)
+        self.hline2 = Plot(charter, self.p2.price, color=Color.NA, id="e2", editable=False, display=Display.NONE)
 
         # Fill
-        self.fill = Fill(charter, e1=self.hline1, e2=self.hline2, color=self.color,
-                         transp=self.transp, editable=self.editable,
+        self.fill = Fill(charter, e1=self.hline1, e2=self.hline2, color=self.color, transp=self.transp,
                          time_start=self.p1.timestamp, time_end=self.p2.timestamp)
 
     def to_pinescript(self):
@@ -50,8 +47,8 @@ class Measure(Element):
         label_offset = 30
 
         # Aligning timestamps - used for Charting
-        aligned_timestamp1 = snap_to_timeframe(timestamp=self.p1.timestamp, timeframe=charter.timeframe)
-        aligned_timestamp2 = snap_to_timeframe(timestamp=self.p2.timestamp, timeframe=charter.timeframe)
+        aligned_timestamp1 = snap_to_timeframe(timestamp=self.p1.timestamp, timeframe=charter.get_timeframe())
+        aligned_timestamp2 = snap_to_timeframe(timestamp=self.p2.timestamp, timeframe=charter.get_timeframe())
 
         # Testing for Measure Color
         if (p2.price >= p1.price):  # Profit
@@ -69,10 +66,11 @@ class Measure(Element):
             percentage_change = f"{round(100 * (absolute_change / p1.price), 2)}%"
         else:  # Loss
             percentage_change = f"{round(100 * (absolute_change / p1.price), 2)}%"
-        time = timestamp_to_string(self.p2.timestamp - self.p1.timestamp)
+        time = self.p2.timestamp - self.p1.timestamp
+        bars = time // charter.get_timeframe()
         self.label_text = (
             f"{round(absolute_change, 2)} ({percentage_change})\\n\\n"
-            f"{time}"
+            f"{bars} bars, {timestamp_to_string(time)}"
         )
 
         # Base Element Scaffolding
