@@ -1,7 +1,8 @@
 from __future__ import annotations
+from Charter import Charter
 from abc import ABC, abstractmethod
 from typing import Union, Any
-from helpers.formatting import parameter_formatting
+from helpers.formatting import parameter_formatting, snap_to_timeframe
 from helpers.input_validation import validate_name
 from PricePoint import PricePoint
 from constants.tv_constants import Color, LabelStyle, Size, TextAlign, Xloc, Yloc
@@ -126,8 +127,8 @@ class Line(Element):
 
         # Required parameters
         self.pine_instruction += (
-            f"x1={self.p1.timestamp}, y1={self.p1.price}, "
-            f"x2={self.p2.timestamp}, y2={self.p2.price}, "
+            f"x1={snap_to_timeframe(self.p1.timestamp, self.charter.timeframe)}, y1={self.p1.price}, "
+            f"x2={snap_to_timeframe(self.p2.timestamp, self.charter.timeframe)}, y2={self.p2.price}, "
             f"xloc={self.xloc.value}"
         )
 
@@ -286,8 +287,8 @@ class Fill(Element):
         self.editable = editable
         self.fillgaps = fillgaps
         self.show_last = showlast
-        self.time_start = time_start
-        self.time_end = time_end
+        self.time_start = snap_to_timeframe(time_start, self.charter.timeframe)
+        self.time_end = snap_to_timeframe(time_end, self.charter.timeframe)
 
         self.check_if_elements_match()
 
@@ -300,15 +301,16 @@ class Fill(Element):
     def time_interval_formatter(self) -> str:
         "Constructs pinescript for timerange filtering"
         assert(isinstance(self.color, Color))  # Makes MyPy happy (Doesn't understand the checking if not None)
-
-        if (self.time_start is None and self.time_end is None):
+        time_start = self.time_start
+        time_end = self.time_end
+        if (time_start is None and time_end is None):
             return self.color.value
-        elif (self.time_end is None):
-            return f", color = time > {self.time_start} ? {self.color.value} : na"
-        elif (self.time_start is None):
-            return f", color = time <= {self.time_start} + (time[0]-time[1]) ? {self.color.value} : na"
+        elif (time_end is None):
+            return f", color = time > {time_start} ? {self.color.value} : na"
+        elif (time_start is None):
+            return f", color = time <= {time_start} + ? {self.color.value} : na"
         else:
-            return f", color = time > {self.time_start} ? (time <= {self.time_end} + (time[0]-time[1]) ? {self.color.value} : na) : na"
+            return f", color = time > {time_start} ? (time <= {time_end} ? {self.color.value} : na) : na"
 
     def to_pinescript(self):
         self.pine_instruction: str = ""
@@ -344,6 +346,3 @@ class Fill(Element):
         self.pine_instruction += ")"
 
         return self.pine_instruction
-
-
-from Charter import Charter

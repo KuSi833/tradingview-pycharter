@@ -19,6 +19,9 @@ class Charter():
             f"study('{chart_name}', overlay=true)"
         )
 
+    def get_timeframe(self) -> int:
+        return self.timeframe
+
     def set_chart_name(self, chart_name: str) -> None:
         input_validation.validate_name(chart_name)
         self.chart_name = chart_name

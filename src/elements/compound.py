@@ -1,6 +1,6 @@
 from __future__ import annotations
 from PricePoint import PricePoint
-from helpers.formatting import timestamp_to_string
+from helpers.formatting import timestamp_to_string, snap_to_timeframe
 from constants.tv_constants import Color, LabelStyle, LineStyle
 from elements.fundamental import Element, Fill, Plot, Label, Line
 
@@ -31,11 +31,6 @@ class Square(Element):
 
     def to_pinescript(self):
         self.pine_instructions = "// Square"
-
-        # self.pine_instructions += self.hline1.to_pinescript() + "\n"
-        # self.pine_instructions += self.hline2.to_pinescript() + "\n"
-        # self.pine_instructions += self.fill.to_pinescript() + "\n"
-
         return self.pine_instructions
 
 
@@ -53,6 +48,10 @@ class Measure(Element):
 
         # Offset
         label_offset = 30
+
+        # Aligning timestamps - used for Charting
+        aligned_timestamp1 = snap_to_timeframe(timestamp=self.p1.timestamp, timeframe=charter.timeframe)
+        aligned_timestamp2 = snap_to_timeframe(timestamp=self.p2.timestamp, timeframe=charter.timeframe)
 
         # Testing for Measure Color
         if (p2.price >= p1.price):  # Profit
@@ -81,15 +80,15 @@ class Measure(Element):
         self.square = Square(charter, p1=p1, p2=p2, color=self.color, transp=80)
 
         # Lines
-        self.midpoint_timestamp = (self.p1.timestamp + self.p2.timestamp) // 2
+        self.midpoint_timestamp = (aligned_timestamp1 + aligned_timestamp2) // 2
         self.midpoint_price = (self.p1.price + self.p2.price) // 2
         self.arrow_down = Line(charter,
                                PricePoint(timestamp=self.midpoint_timestamp, price=self.p1.price),
                                PricePoint(timestamp=self.midpoint_timestamp, price=self.p2.price),
                                color=self.color, style=LineStyle.ARROW_RIGHT)
         self.arrow_right = Line(charter,
-                                PricePoint(timestamp=self.p1.timestamp, price=self.midpoint_price),
-                                PricePoint(timestamp=self.p2.timestamp, price=self.midpoint_price),
+                                PricePoint(timestamp=aligned_timestamp1, price=self.midpoint_price),
+                                PricePoint(timestamp=aligned_timestamp2, price=self.midpoint_price),
                                 color=self.color, style=LineStyle.ARROW_RIGHT)
 
         # Label
@@ -98,12 +97,6 @@ class Measure(Element):
 
     def to_pinescript(self):
         self.pine_instructions = "// Measure"
-
-        # self.pine_instructions += self.square.to_pinescript() + "\n"  # Square
-        # self.pine_instructions += self.arrow_down.to_pinescript() + "\n"  # Arrow Down
-        # self.pine_instructions += self.arrow_right.to_pinescript() + "\n"  # Arrow Right
-        # self.pine_instructions += self.label.to_pinescript() + "\n"  # Label
-
         return self.pine_instructions
 
 
