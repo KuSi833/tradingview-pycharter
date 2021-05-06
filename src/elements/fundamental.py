@@ -233,7 +233,7 @@ class Plot(Element):
         self.display = display
 
     def to_pinescript(self):
-        self.pine_instruction: str = ""
+        self.pine_instruction: str = "// Plot \n"
         # Initialisation
         if self.id is not None:
             self.pine_instruction += f"{self.id} = "
@@ -308,7 +308,7 @@ class Fill(Element):
         return time_interval_formatter(self.time_start, self.time_end, self.color.value)
 
     def to_pinescript(self):
-        self.pine_instruction: str = ""
+        self.pine_instruction: str = "// Fill \n"
 
         # Pinescript function
         self.pine_instruction += "fill("
@@ -369,16 +369,16 @@ class Bgcolor(Element):
         "Constructs pinescript for timerange filtering"
         # Makes MyPy happy (Doesn't understand the checking if not None)
         assert(isinstance(self.color, Color))
-        return time_interval_formatter(self.time_start, self.time_end, self.color.value)
+        return time_interval_formatter(self.time_start, self.time_end, self.color.value, add_comma = False)
 
     def to_pinescript(self):
-        self.pine_instruction: str = ""
+        self.pine_instruction: str = "// Background color \n"
 
         # Pinescript function
         self.pine_instruction += "bgcolor("
 
         # Required parameters
-        self.pine_instruction += f"color={self.color.value}"
+        self.pine_instruction += self.time_range_filtering()
 
         # Optional parameters
         parameters = [
@@ -392,10 +392,6 @@ class Bgcolor(Element):
             self.pine_instruction += parameter_formatting(
                 parameter, ps_parameter_name)
 
-        # Custom Color formatting for fill
-        if self.color is not None:
-            self.pine_instruction += self.time_range_filtering()
-
         # End of pine instruction
         self.pine_instruction += ")"
 
@@ -405,7 +401,7 @@ class Bgcolor(Element):
 class Barcolor(Element):
     def __init__(self, charter: Charter,
                  color: Color = None,
-                time_start: int = None,
+                 time_start: int = None,
                  time_end: int = None,
                  offset: int = None,
                  editable: bool = None,
@@ -424,16 +420,17 @@ class Barcolor(Element):
         "Constructs pinescript for timerange filtering"
         # Makes MyPy happy (Doesn't understand the checking if not None)
         assert(isinstance(self.color, Color))
-        return time_interval_formatter(self.time_start, self.time_end, self.color.value)
-        
+        return time_interval_formatter(self.time_start, self.time_end, self.color.value, add_comma = False)
+
     def to_pinescript(self):
         self.pine_instruction: str = ""
 
         # Pinescript function
         self.pine_instruction += "barcolor("
 
-        # Required parameters
-        self.pine_instruction += f"color={self.color.value}"
+        # Required parameters 
+        if self.color is not None:
+            self.pine_instruction += self.time_range_filtering()
 
         # Optional parameters
         parameters = [
@@ -446,9 +443,6 @@ class Barcolor(Element):
             self.pine_instruction += parameter_formatting(
                 parameter, ps_parameter_name)
 
-        # Custom Color formatting 
-        if self.color is not None:
-            self.pine_instruction += self.time_range_filtering()
         # End of pine instruction
         self.pine_instruction += ")"
 

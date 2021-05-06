@@ -51,12 +51,16 @@ def timestamp_to_string(timestamp: int) -> str:
 
     return returnstring
 
-def time_interval_formatter(time_start: int, time_end : int, color : str) -> str:
+def time_interval_formatter(time_start: int, time_end : int, color : str, add_comma: bool = True) -> str:
+    returnstring = ""
+    if add_comma:
+        returnstring += ", "
     if (time_start is None and time_end is None):
-            return color
+            returnstring += f"color = {color}"
     elif (time_end is None):
-            return f", color = time > {time_start} ? {color} : na"
+            returnstring += f"color = time > {time_start} ? {color} : na"
     elif (time_start is None):
-            return f", color = time <= {time_end} ? {color} : na"
+            returnstring += f"color = time <= {time_end} ? {color} : na"
     else:
-            return f", color = time > {time_start} ? (time <= {time_end} ? {color} : na) : na"
+            returnstring += f"color = time > {time_start} ? (time <= {time_end} ? {color} : na) : na"
+    return returnstring
