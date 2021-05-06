@@ -16,5 +16,5 @@ if barstate.islast
 hline1 = hline(price = 2500)
 hline2 = hline(price = 2700)
 fill(hline1=hline1, hline2=hline2, color = time <= 1619622000000 ? color.blue : na)
-bgcolor(color=color.fuchsia, transp = 50, title = "Bg color", color = time > 1619624367000 ? color.fuchsia : na)
-barcolor(color=color.maroon, offset = 2)
+bgcolor(color=color.fuchsia, transp = 50, title = "Bg color", color = time > 1619622000000 ? color.fuchsia : na)
+barcolor(color=color.maroon, color = time > 1618995600000 ? color.maroon : na)

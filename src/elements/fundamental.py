@@ -359,8 +359,8 @@ class Bgcolor(Element):
         self.color = color
         self.transp = transp
         self.offset = offset
-        self.time_start = time_start
-        self.time_end = time_end
+        self.time_start = snap_to_timeframe(time_start, self.charter.timeframe)
+        self.time_end = snap_to_timeframe(time_end, self.charter.timeframe)
         self.show_last = show_last
         self.editable = editable
         self.title = title
@@ -405,17 +405,27 @@ class Bgcolor(Element):
 class Barcolor(Element):
     def __init__(self, charter: Charter,
                  color: Color = None,
+                time_start: int = None,
+                 time_end: int = None,
                  offset: int = None,
                  editable: bool = None,
                  show_last: int = None,
                  title: str = None) -> None:
         super().__init__(charter)
         self.color = color
+        self.time_start = snap_to_timeframe(time_start, self.charter.timeframe)
+        self.time_end = snap_to_timeframe(time_end, self.charter.timeframe)
         self.offset = offset
         self.editable = editable
         self.show_last = show_last
         self.title = title
 
+    def time_range_filtering(self) -> str:
+        "Constructs pinescript for timerange filtering"
+        # Makes MyPy happy (Doesn't understand the checking if not None)
+        assert(isinstance(self.color, Color))
+        return time_interval_formatter(self.time_start, self.time_end, self.color.value)
+        
     def to_pinescript(self):
         self.pine_instruction: str = ""
 
@@ -436,6 +446,9 @@ class Barcolor(Element):
             self.pine_instruction += parameter_formatting(
                 parameter, ps_parameter_name)
 
+        # Custom Color formatting 
+        if self.color is not None:
+            self.pine_instruction += self.time_range_filtering()
         # End of pine instruction
         self.pine_instruction += ")"
 
